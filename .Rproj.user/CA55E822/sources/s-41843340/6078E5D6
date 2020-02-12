@@ -1,0 +1,26 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1580316965637.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2601721150",
+    "id" : "6078E5D6",
+    "lastKnownWriteTime" : 1581541174,
+    "last_content_update" : 1581541174294,
+    "path" : "~/Box/Aging Well Lab/Projects/varyDelay/04_ANCOVAs.R",
+    "project_path" : "04_ANCOVAs.R",
+    "properties" : {
+        "cursorPosition" : "43,36",
+        "scrollLine" : "21",
+        "tempName" : "Untitled1"
+    },
+    "read_only" : false,
+    "read_only_alternatives" : [
+    ],
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

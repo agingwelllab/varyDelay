@@ -1,0 +1,11 @@
+#histogram of age
+#SL 12.19.09
+
+#extract age from data
+Age <- varydelay_data$Age
+
+#calculate number of bins needed
+bins = seq(min(Age), max(Age), 1)
+
+#build histogram
+hist(Age, breaks= bins, col= "grey")
