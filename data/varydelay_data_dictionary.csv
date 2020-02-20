@@ -1,7 +1,7 @@
-"Variable","Question"
-"ID","0"
-"StartDate","Start Date"
-"EndDate","End Date"
+"Variable","Question","type","allowed_values"
+"ID","0","character","001-276"
+"StartDate","Start Date","factor","YYYY-MM-DD HH:MM:SS"
+"EndDate","End Date","factor","YYYY-MM-DD HH:MM:SS"
 "Q3.1","The Effect of Differential Delay on Time Preferences Across Adulthood
 
  
@@ -32,82 +32,111 @@ If you are 18 years of age or older, understand the statements above, and freely
 
  
 
-If you are not  18 years of age or older, do not understand the statements above, or do not freely consent to participate in the study, click on the ""I do not consent"" button to exit the experiment."
-"Q4.1","Are you currently experiencing or have you previously experienced any psychological health issues (for example, depression, bipolar, anxiety, OCD, ADD/ADHD, eating disorder, addiction, etc.)?"
-"Q4.2","Are you currently experiencing or have you previously experienced any neurological health issues (for example, seizure, stroke, dementia, Alzheimer's, Parkinson's, etc.)?"
-"Sex","Are you male or female?"
-"Age","What is your age?"
-"Education","What is the highest level of education you've completed?"
-"Race","What is your race/ethnicity?"
-"Income","What was your total household income last year?  (If a student, select your approximate family income)"
-"physical_health","How do you feel about your general physical health these days?"
-"DOB_month","What is your date of birth? - Month"
-"DOB_day","What is your date of birth? - Day"
-"DOB_year","What is your date of birth? - Year"
+If you are not  18 years of age or older, do not understand the statements above, or do not freely consent to participate in the study, click on the ""I do not consent"" button to exit the experiment.","factor","1"
+"Q4.1","Are you currently experiencing or have you previously experienced any psychological health issues (for example, depression, bipolar, anxiety, OCD, ADD/ADHD, eating disorder, addiction, etc.)?","factor","1 = Yes, 2 = No"
+"Q4.2","Are you currently experiencing or have you previously experienced any neurological health issues (for example, seizure, stroke, dementia, Alzheimer's, Parkinson's, etc.)?","factor","1 = Yes, 2 = No"
+"Sex","Are you male or female?","factor","1 = Male, 2 = Female"
+"Age","What is your age?","numeric","21-85"
+"Education","What is the highest level of education you've completed?","factor","1 = Middle School, 2 = High School Diploma, 3 = Some College, 4 = Associate's Degree, 
+  5 = Bachelor's Degree, 6 = Master's Degree, 7 = Professional/Doctoral Degree"
+"Race","What is your race/ethnicity?","factor","1 = White/Caucasian, 2 = Black/African American, 
+3 = Asian, 4 = American Indian/Alaskan Native, 5 = Native Hawaiian/Pacific Islander, 6 = Multiracial, 
+7 = Other"
+"Income","What was your total household income last year?  (If a student, select your approximate family income)","factor","
+1 = less than $10,000, 
+2 = $10,000-$19,999, 
+3 = $20,000-$29,999, 
+4 = $30,000-$39,999
+5 = $40,000-$49,999, 
+6 = $50,000-$59,999, 
+7 = $60,000-$69,999, 
+8 = $70,000-$79,999, 
+9 = $80,000-$89,999, 
+10 = $90,000-$99,999, 
+11 = $100,000-$109,999, 
+12 = $110,000-$119,999, 
+13 = $120,000-$129,999, 
+14 = $130,000-$139,999, 
+15 = $140,000-$149,999,
+16 = $150,000 or more"
+"physical_health","How do you feel about your general physical health these days?","factor","1 = not healthy at all, 
+2 = slightly healthy, 3 = moderately healthy, 4 = quite healthy, 5 = very healthy"
+"DOB_month","What is your date of birth? - Month","factor","1 = January, 2 = February, 3 = March, 4 = April, 
+5 = May, 6 = June, 7 = July, 8 = August, 9 = September, 10 = October, 11 = November, 12 = December"
+"DOB_day","What is your date of birth? - Day","factor","1-31"
+"DOB_year","What is your date of birth? - Year","factor","1-100, 1 = 1920, 100 = 2020"
 "FTP_1","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - Many opportunities await me in the future."
+How true is this of you? - Many opportunities await me in the future.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_2","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - I expect that I will set many new goals in the future."
+How true is this of you? - I expect that I will set many new goals in the future.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_3","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - My future is filled with possibilities."
+How true is this of you? - My future is filled with possibilities.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_4","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - Most of my life lies ahead of me."
+How true is this of you? - Most of my life lies ahead of me.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_5","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - My future seems infinite to me."
+How true is this of you? - My future seems infinite to me.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_6","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - I could do anything I want in the future."
+How true is this of you? - I could do anything I want in the future.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_7","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - There is plenty of time left in my life to make new plans."
+How true is this of you? - There is plenty of time left in my life to make new plans.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_8","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - I have the sense that time is running out."
+How true is this of you? - I have the sense that time is running out.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_9","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - There are only limited possibilities in my future."
+How true is this of you? - There are only limited possibilities in my future.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_10","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
-How true is this of you? - As I get older, I begin to experience time as limited."
-"PR1","Which option would you prefer?"
-"PR2","Which option would you prefer?"
-"CT1","Which option would you prefer?"
-"CT2","Which option would you prefer?"
-"CT3","Which option would you prefer?"
-"CT4","Which option would you prefer?"
-"X1d_1","Which option would you prefer?"
-"X1d_05","Which option would you prefer?"
-"X1d_005","Which option would you prefer?"
-"X4d_1","Which option would you prefer?"
-"X4d_05","Which option would you prefer?"
-"X4d_005","Which option would you prefer?"
-"X7d_1","Which option would you prefer?"
-"X7d_05","Which option would you prefer?"
-"X7d_005","Which option would you prefer?"
-"X1w_005","Which option would you prefer?"
-"X1w_05","Which option would you prefer?"
-"X1w_1","Which option would you prefer?"
-"X2w_1","Which option would you prefer?"
-"X2w_05","Which option would you prefer?"
-"X2w_005","Which option would you prefer?"
-"X4w_1","Which option would you prefer?"
-"X4w_05","Which option would you prefer?"
-"X4w_005","Which option would you prefer?"
-"X1m_005","Which option would you prefer?"
-"X1m_05","Which option would you prefer?"
-"X1m_1","Which option would you prefer?"
-"X6m_1","Which option would you prefer?"
-"X6m_05","Which option would you prefer?"
-"X6m_005","Which option would you prefer?"
-"X12m_1","Which option would you prefer?"
-"X12m_05","Which option would you prefer?"
-"X12m_005","Which option would you prefer?"
-"X1y_005","Which option would you prefer?"
-"X1y_05","Which option would you prefer?"
-"X1y_1","Which option would you prefer?"
-"X5y_1","Which option would you prefer?"
-"X5y_05","Which option would you prefer?"
-"X5y_005","Which option would you prefer?"
-"X10y_1","Which option would you prefer?"
-"X10y_05","Which option would you prefer?"
-"X10y_005","Which option would you prefer?"
-"liquid_savings","How much money do you have in savings today (in cash, checking, and savings account balances)?"
-"confidence","How confident are you that you could come up with $2,000 in 30 days if an unexpected need arose within the next month?"
-"investments","Do you currently have non-retirement Investments (such as stocks, bonds, or mutual funds)?"
-"health_ins","Do you currently have health insurance?"
-"extra_money","If you found yourself needing extra money to make ends meet, would the following statements be true for you? Select any that apply."
+How true is this of you? - As I get older, I begin to experience time as limited.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
+"PR1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"PR2","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"CT1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"CT2","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"CT3","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"CT4","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1d_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1d_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1d_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4d_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4d_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4d_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X7d_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X7d_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X7d_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1w_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1w_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1w_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X2w_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X2w_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X2w_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4w_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4w_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X4w_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1m_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1m_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1m_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X6m_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X6m_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X6m_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X12m_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X12m_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X12m_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1y_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1y_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X1y_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X5y_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X5y_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X5y_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X10y_1","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X10y_05","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"X10y_005","Which option would you prefer?","integer","1 = smaller sooner, 2 = larger later"
+"liquid_savings","How much money do you have in savings today (in cash, checking, and savings account balances)?","integer","1=$0, 2=$1-49, 3=$50-99, 4=$100-249, 
+5=$350-499, 6=$500-999, 7=$1,000-1,999, 8=$2,000-4,999, 9=$5,000-9,999, 10=$10,000-19,999, 
+11=$20,000-49,000, 12=$50,000-74,999, 13=$75,000 or more"
+"confidence","How confident are you that you could come up with $2,000 in 30 days if an unexpected need arose within the next month?","integer","1 = I am certain I could come up with the full $2,000, 
+2 = I could probably come up with $2,000,
+3 = I could probably not come up with $2,000, 
+4 = I am certain I could not come up with $2,000, 
+5 = I don't know"
+"investments","Do you currently have non-retirement Investments (such as stocks, bonds, or mutual funds)?","integer","1 = Yes, 2 = No"
+"health_ins","Do you currently have health insurance?","integer","1 = Yes, 2 = No"
+"extra_money","If you found yourself needing extra money to make ends meet, would the following statements be true for you? Select any that apply.","integer","
+1 = My friends or family would lend me the money and expect me to repay them, 
+2 = My friends or family would give me the money with no expectation of repayment"
