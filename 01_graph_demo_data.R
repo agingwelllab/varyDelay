@@ -17,10 +17,14 @@ dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 # isolate demo data
 demo <- isolate_data(dt, grep('ID', colnames(dt)), 
                      grep('Sex', colnames(dt)):grep('physical_health', colnames(dt))) 
-                     
+# ====================                     
 # pie of education
+# ====================
+# TBD
 
+# ====================
 # pie chart of race
+# ====================
 demo$Race <- factor(demo$Race)
 
 demo$Race <- mapvalues(demo$Race, from = c('1', '2', '3', '4', '5', '6', '7'), 
@@ -31,9 +35,23 @@ demo$Race <- mapvalues(demo$Race, from = c('1', '2', '3', '4', '5', '6', '7'),
                               'Native Hawaiian/Island Pacificer', 
                               'Multiracial', 
                               'Other'))
-pie(table(demo$Race))
+#pie(table(demo$Race))
+#get Race Frequencies & save as its own table
+Race_frequency <- count(demo$Race)
+Race_frequency <- Race_frequency [c(1:3),]
+Race_frequency <- count(demo$Race)
 
+#rename to race & frequency
+names(Race_frequency) [1] = "Race"
+
+#make it circular with coord_polar()
+ggplot(Race_frequency, aes(x="", y= freq, fill= Race)) + geom_bar (stat= "identity", width=1) +
+  coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) 
+rm(Race_frequency)
+
+# ====================
 # histogram of income
+# ====================
 demo$Income <- ordered(demo$Income, levels = as.character(seq(1,16,1)))
 demo$Income <- mapvalues(demo$Income, from = as.character(seq(1,16,1)), 
                          to = c('< $10,000', '$10,000-$19,999', '$20,000-$29,999', 
@@ -46,5 +64,11 @@ demo$Income <- mapvalues(demo$Income, from = as.character(seq(1,16,1)),
 ggplot(demo, aes(Income)) + geom_histogram(stat='count') + 
   theme_minimal() + theme(axis.text.x  = element_text(angle=90, vjust=0.5, size=12))
 
+# ====================
 # histogram of age
+# ====================
+## calculate number of bins needed
+bins = seq(min(dt$Age, na.rm=TRUE), max(dt$Age, na.rm=TRUE), 1)
 
+# #build histogram
+hist(dt$Age, breaks= bins, col= "grey")
