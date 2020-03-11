@@ -18,7 +18,9 @@ source(here::here('scr', 'summarySE.R'))
 dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 
 # isolate gamble data
-gd <- isolate_data(dt, c(1,8), 32:67)
+gd <- isolate_data(dt, grep('ID', colnames(dt))[1], c(grep('Age', colnames(dt)), 
+grep('X1d_1', colnames(dt)):grep('X10y_005', colnames(dt))))
+
 gd <- gd[complete.cases(gd),]
 
 # restructure data for analysis 
@@ -44,6 +46,6 @@ m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit, kva
 # create new variable - delay_n_days
 
 # 3 (kval) x 10 (delay_n_days) x Age Within-Subjects ANCOVA
-M2 <- m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_n_days, kval), between = .(Age))
+#M2 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_n_days, kval), between = .(Age))
 
 

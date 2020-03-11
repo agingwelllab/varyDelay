@@ -21,7 +21,7 @@ dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 ftp <- calculate_ftp(dt)
 
 ## calculate number of bins needed
-bins = seq(min(ftp$FTP, na.rm=TRUE), max(ftp$FTP, na.rm=TRUE), 0.5)
+bins = seq(min(ftp$FTP, na.rm=TRUE), round(max(ftp$FTP, na.rm=TRUE)), 0.5)
 
 # #build histogram
 hist(ftp$FTP, breaks= bins, col= "grey")
@@ -48,7 +48,14 @@ rm(savings)
 # ==================== 
 # confidence
 # ==================== 
-dt$confidence <- mapvalues(dt$confidence, from = c('1', '2'), to = c('Yes', 'No'))
+#dt$confidence <- mapvalues(dt$confidence, from = c('1', '2'), to = c('Yes', 'No'))
+dt$confidence <- mapvalues(dt$confidence, from = c('1', '2', '3', '4','5'), 
+                           to = c("I am certain I could come up with the full $2,000", 
+                                  "I could probably come up with $2,000", 
+                                  "I could probably not come up with $2,000", 
+                                  "I am certain I could not come up with $2,000", 
+                                  "I don't know"))
+
 conf <- count(dt$confidence)
 names(conf) [1] = "Confidence"
 conf <- conf[which(conf$Confidence != 'NA'),]

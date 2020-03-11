@@ -2,41 +2,15 @@
 "ID","0","character","001-276"
 "StartDate","Start Date","factor","YYYY-MM-DD HH:MM:SS"
 "EndDate","End Date","factor","YYYY-MM-DD HH:MM:SS"
-"Q3.1","The Effect of Differential Delay on Time Preferences Across Adulthood
-
- 
-
-Welcome to the Time Preferences research project, a web-based experiment that examines how the timing of a gain affects decision making across the lifespan. Before taking part in this study, please read the consent form below and click on the ""I consent"" button at the bottom of the page if you understand the statements and freely consent to participate in the study. 
-
- 
-
-Consent Form
-
-This study involves a web-based experiment designed to examine how the length of a delay affects decision making for people of all ages. The study is being conducted by Dr. Kendra Seaman of the University of Texas at Dallas, and it has been approved by the The University of Texas at Dallas Institutional Review Board. No deception is involved, and the study involves no more than minimal risk to participants (i.e: the level of risk encountered in daily life). 
-
- 
-
-Participation in the study typically takes 7-9 minutes and is strictly confidential. Participants begin by answering a few questions about themselves and how they perceive their lifespan. The study continues with a series of questions asking participants to choose which option they would prefer, and concludes with a few questions about saving habits.  All responses are treated as confidential, and in no case will responses from individual participants be identified. Rather, all data will be pooled and published in aggregate form only. Participants should be aware, however that the experiment is not being run from a ""secure"" server, like those that are used to handle credit card transactions. So there is a small possibility that responses could be viewed by unauthorized third parties (e.g., computer hackers). 
-
- 
-
-Many individuals find participation in this study enjoyable, and no adverse reactions have been reported. Participation is voluntary- refusal to take part in the study involves no penalty or loss of benefits to which participants are otherwise entitled, and participants may withdraw from the study at any time without penalty or loss of benefits to which they are otherwise entitled. In exchange for completing the study, participants will receive e-rewards currency, as described in their study invitation. 
-
-
-
-If participants have further questions about this study, they may contact the Principal Investigator, Dr. Kendra Seaman at kendra.seaman@utdallas.edu. Participants who want more information about their rights as a participant or who want to report a research related concern may contact The University of Texas at Dallas Institutional Review Board at (972)-883-4579.
-
- 
-
-If you are 18 years of age or older, understand the statements above, and freely consent to participate in the study, click on the ""I consent"" button to begin the experiment. 
-
- 
-
-If you are not  18 years of age or older, do not understand the statements above, or do not freely consent to participate in the study, click on the ""I do not consent"" button to exit the experiment.","factor","1"
+"Q_BallotBoxStuffing","Q_BallotBoxStuffing","factor",NA
 "Q4.1","Are you currently experiencing or have you previously experienced any psychological health issues (for example, depression, bipolar, anxiety, OCD, ADD/ADHD, eating disorder, addiction, etc.)?","factor","1 = Yes, 2 = No"
 "Q4.2","Are you currently experiencing or have you previously experienced any neurological health issues (for example, seizure, stroke, dementia, Alzheimer's, Parkinson's, etc.)?","factor","1 = Yes, 2 = No"
 "Sex","Are you male or female?","factor","1 = Male, 2 = Female"
 "Age","What is your age?","numeric","21-85"
+"Q90","Which of the following best describes the nature of your participation in this study?","factor",NA
+"Q91","What will you be expected to do in this study?","factor",NA
+"Q92","What should you do if you have further questions about this study?","factor",NA
+"Q93","If you are 18 years of age or older, understand the statements above, and freely consent to participate in the study, click on the ""I consent"" button to begin the experiment.  If you are not  18 years of age or older, do not understand the statements above, or do not freely consent to participate in the study, click on the ""I do not consent"" button to exit the experiment.","factor",NA
 "Education","What is the highest level of education you've completed?","factor","1 = Middle School, 2 = High School Diploma, 3 = Some College, 4 = Associate's Degree, 
   5 = Bachelor's Degree, 6 = Master's Degree, 7 = Professional/Doctoral Degree"
 "Race","What is your race/ethnicity?","factor","1 = White/Caucasian, 2 = Black/African American, 
@@ -59,12 +33,12 @@ If you are not  18 years of age or older, do not understand the statements above
 14 = $130,000-$139,999, 
 15 = $140,000-$149,999,
 16 = $150,000 or more"
-"physical_health","How do you feel about your general physical health these days?","factor","1 = not healthy at all, 
+"physical_health","How do you feel about your general physical health these days?","integer","1 = not healthy at all, 
 2 = slightly healthy, 3 = moderately healthy, 4 = quite healthy, 5 = very healthy"
-"DOB_month","What is your date of birth? - Month","factor","1 = January, 2 = February, 3 = March, 4 = April, 
+"DOB_month","What is your date of birth? - Month","integer","1 = January, 2 = February, 3 = March, 4 = April, 
 5 = May, 6 = June, 7 = July, 8 = August, 9 = September, 10 = October, 11 = November, 12 = December"
-"DOB_day","What is your date of birth? - Day","factor","1-31"
-"DOB_year","What is your date of birth? - Year","factor","1-100, 1 = 1920, 100 = 2020"
+"DOB_day","What is your date of birth? - Day","integer","1-31"
+"DOB_year","What is your date of birth? - Year","integer","1-100, 1 = 1920, 100 = 2020"
 "FTP_1","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
 How true is this of you? - Many opportunities await me in the future.","integer","1 - 7; 1= Very Untrue, 7 = Very True"
 "FTP_2","Read each item and, as honestly as you can, answer the questions: ""How true is this of you?"" Select the oval under the appropriate number on the scale, where 1 means the statement is very untrue for you and 7 means the statement is very true for you. 
@@ -140,3 +114,22 @@ How true is this of you? - As I get older, I begin to experience time as limited
 "extra_money","If you found yourself needing extra money to make ends meet, would the following statements be true for you? Select any that apply.","integer","
 1 = My friends or family would lend me the money and expect me to repay them, 
 2 = My friends or family would give me the money with no expectation of repayment"
+"opp","opp","integer",NA
+"Q_TotalDuration","Q_TotalDuration","integer",NA
+"RISN","RISN","integer",NA
+"rid","rid","integer",NA
+"PID","PID","integer","001-276"
+"psid","psid","integer",NA
+"study","study","integer",NA
+"K2","K2","integer",NA
+"med","med","integer",NA
+"rnid","rnid","integer",NA
+"gid","gid","integer",NA
+"sname","sname","integer",NA
+"viga","viga","integer",NA
+"cintid","cintid","integer",NA
+"ProjectToken","ProjectToken","integer",NA
+"tid","tid","integer",NA
+"gc","gc","integer",NA
+"term","term","integer",NA
+"LS","LS","integer",NA

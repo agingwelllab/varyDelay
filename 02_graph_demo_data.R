@@ -27,7 +27,7 @@ demo <- isolate_data(dt, grep('ID', colnames(dt)),
 # ====================
 demo$Race <- factor(demo$Race)
 
-demo$Race <- mapvalues(demo$Race, from = c('1', '2', '3', '4', '5', '6', '7'), 
+demo$Race <- mapvalues(demo$Race, from = c('1', '2', '3', '5', '6', '7', '8'), 
                        to = c('White/Caucasian', 
                               'Black/African American', 
                               'Asian', 

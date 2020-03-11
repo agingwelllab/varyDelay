@@ -10,7 +10,8 @@ library(stringr)
 # set hard-coded variables
 
 # load data
-dt <- read.csv(here('data', 'pilotdata.csv'))
+dt <- read.csv(here::here('data', 'pilotdata.csv'))
+#dt <- read.csv(here::here('data', 'varyDelay_March_6_softlaunch_n=29.csv'))
                
 # add id column
 dt$ID <- c(0,0,seq(1,nrow(dt)-2,1))
@@ -27,7 +28,7 @@ colnames(dd) <- c('Variable', 'Question')
 # finish cleaning
 dt <- dt[-c(1:2),] # remove qualtrics header
 dt$Age <- as.integer(as.character(dt$Age)) # fix age variable
-dt$Age <- dt$Age + 19
+#dt$Age <- dt$Age + 19
 
 # pad sub numbers with zeros
 dt$ID <- str_pad(dt$ID, 3, pad = "0")
@@ -100,8 +101,8 @@ dd$allowed_values[grep("extra_money", colnames(dt))] <- '
 2 = My friends or family would give me the money with no expectation of repayment'
 
 # Save
-write.csv(dd, here("data", "varydelay_data_dictionary.csv"), row.names = FALSE)
-write.csv(dt, here("data", "varydelay_data.csv"), row.names = FALSE)
+#write.csv(dd, here("data", "varydelay_data_dictionary.csv"), row.names = FALSE)
+#write.csv(dt, here("data", "varydelay_data.csv"), row.names = FALSE)
 
 
 

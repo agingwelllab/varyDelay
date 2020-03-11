@@ -8,6 +8,9 @@ calculate_ftp <- function(data) {
   library(psych)
   source(here::here('scr', 'isolate_data.R'))
   d0 <- isolate_data(data, grep('ID', colnames(data)), grep('FTP', colnames(dt)))
+  if("PID" %in% colnames(d0)) {
+    d0$PID <- NULL
+  }
   keys<-c(1,1,1,1,1,1,1,-1,-1,-1)
   items <- d0[2:11]
   d1 <- reverse.code(keys, items, mini = 1, maxi=7)
@@ -16,3 +19,4 @@ calculate_ftp <- function(data) {
   return(d2)
 }
 
+data = dt
