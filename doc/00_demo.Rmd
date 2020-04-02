@@ -1,0 +1,21 @@
+---
+title: "Demographics"
+author: "Kendra Seaman and Shelby Leverett"
+date: "4/2/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source('../02_graph_demo_data.R')
+```
+
+## Race
+
+```{r race}
+race
+```
+
+## Income
+
+## Age

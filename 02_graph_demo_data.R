@@ -45,7 +45,7 @@ Race_frequency <- count(demo$Race)
 names(Race_frequency) [1] = "Race"
 
 #make it circular with coord_polar()
-ggplot(Race_frequency, aes(x="", y= freq, fill= Race)) + geom_bar (stat= "identity", width=1) +
+race <- ggplot(Race_frequency, aes(x="", y= freq, fill= Race)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) 
 rm(Race_frequency)
 

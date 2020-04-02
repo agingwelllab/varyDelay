@@ -10,8 +10,8 @@ library(stringr)
 # set hard-coded variables
 
 # load data
-dt <- read.csv(here::here('data', 'pilotdata.csv'))
-#dt <- read.csv(here::here('data', 'varyDelay_March_6_softlaunch_n=29.csv'))
+#dt <- read.csv(here::here('data', 'pilotdata.csv'))
+dt <- read.csv(here::here('data', 'varyDelay_March_6_softlaunch_n=29.csv'))
                
 # add id column
 dt$ID <- c(0,0,seq(1,nrow(dt)-2,1))
@@ -101,8 +101,8 @@ dd$allowed_values[grep("extra_money", colnames(dt))] <- '
 2 = My friends or family would give me the money with no expectation of repayment'
 
 # Save
-#write.csv(dd, here("data", "varydelay_data_dictionary.csv"), row.names = FALSE)
-#write.csv(dt, here("data", "varydelay_data.csv"), row.names = FALSE)
+write.csv(dd, here::here("data", "varydelay_data_dictionary.csv"), row.names = FALSE)
+write.csv(dt, here::here("data", "varydelay_data.csv"), row.names = FALSE)
 
 
 
