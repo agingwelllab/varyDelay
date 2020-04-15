@@ -17,5 +17,13 @@ race
 ```
 
 ## Income
+```{r income}
+income
+```
+
 
 ## Age
+```{r age}
+age
+```
+
