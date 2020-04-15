@@ -1,0 +1,48 @@
+---
+title: "03_Graph_Questionnaire"
+author: "Shelby Leverett"
+date: "4/14/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache= FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("../03_graph_questionnaires.R")
+```
+
+## Future Time Perspective
+
+```{r ftp, echo = FALSE}
+ftp_hist
+```
+
+
+## Liquid Savings
+```{r liquid savings, echo = FALSE}
+liquid_savings
+```
+
+
+## How confident are you in your ability to cover an unexpected expense?
+```{r confidence, echo = FALSE}
+confidence
+```
+
+
+## Non-retirement Investments
+```{r investments, echo = FALSE}
+investments
+```
+
+## Health Insurance
+```{r health insurance, echo = FALSE}
+health_ins
+```
+
+
+## Extra Money
+```{r extra money, echo = FALSE}
+extra_money
+```
+
+
