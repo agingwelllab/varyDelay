@@ -61,7 +61,7 @@ demo$Income <- mapvalues(demo$Income, from = as.character(seq(1,16,1)),
                                 '$120,000-$129,999', '$130,000-$139,999', '$140,000-$149,999',
                                 '>= $150,000') )
 
-ggplot(demo, aes(Income)) + geom_histogram(stat='count') + 
+income <- ggplot(demo, aes(Income)) + geom_histogram(stat='count') + 
   theme_minimal() + theme(axis.text.x  = element_text(angle=90, vjust=0.5, size=12))
 
 # ====================
@@ -71,4 +71,5 @@ ggplot(demo, aes(Income)) + geom_histogram(stat='count') +
 bins = seq(min(dt$Age, na.rm=TRUE), max(dt$Age, na.rm=TRUE), 1)
 
 # #build histogram
-hist(dt$Age, breaks= bins, col= "grey")
+age <- hist(dt$Age, breaks= bins, col= "grey")
+
