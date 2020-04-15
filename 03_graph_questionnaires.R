@@ -24,7 +24,7 @@ ftp <- calculate_ftp(dt)
 bins = seq(min(ftp$FTP, na.rm=TRUE), round(max(ftp$FTP, na.rm=TRUE)), 0.5)
 
 # #build histogram
-hist(ftp$FTP, breaks= bins, col= "grey")
+ftp_hist <- hist(ftp$FTP, breaks= bins, col= "grey")
 
 # ==================== 
 # liquid savings
@@ -41,7 +41,7 @@ savings <- savings[which(savings$Savings != 'NA'),]
 
 #make into piechart
 title <- "How much money do you have in savings today (in cash, checking, and savings account balances)?"
-ggplot(savings, aes(x="", y= freq, fill= Savings)) + geom_bar (stat= "identity", width=1) +
+liquid_savings <- ggplot(savings, aes(x="", y= freq, fill= Savings)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(savings)
 
@@ -62,7 +62,7 @@ conf <- conf[which(conf$Confidence != 'NA'),]
 
 #make into piechart
 title <- "How confident are you to unexpectedly come up with $2,000 in 30 days?"
-ggplot(conf, aes(x="", y= freq, fill= Confidence)) + geom_bar (stat= "identity", width=1) +
+confidence <- ggplot(conf, aes(x="", y= freq, fill= Confidence)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(conf)
 
@@ -76,7 +76,7 @@ invest <- invest[which(invest$invest != 'NA'),]
 
 #make into piechart
 title <- "Do you currently have non-retirement investments?"
-ggplot(invest, aes(x="", y= freq, fill= invest)) + geom_bar (stat= "identity", width=1) +
+investments <- ggplot(invest, aes(x="", y= freq, fill= invest)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(invest)
 
@@ -90,7 +90,7 @@ hins <- hins[which(hins$Health != 'NA'),]
 
 #make into piechart
 title <- "Do you currenly have health insurance?"
-ggplot(hins, aes(x="", y= freq, fill= Health)) + geom_bar (stat= "identity", width=1) +
+health_ins <- ggplot(hins, aes(x="", y= freq, fill= Health)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(hins)
 
@@ -107,6 +107,6 @@ money <- money[which(money$extra_money != 'NA'),]
 
 #make into piechart
 title <- "Would friends/family loan money and expect to be repaid?"
-ggplot(money, aes(x="", y= freq, fill= extra_money)) + geom_bar (stat= "identity", width=1) +
+extra_money <- ggplot(money, aes(x="", y= freq, fill= extra_money)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(money)
