@@ -44,9 +44,12 @@ Race_frequency <- count(demo$Race)
 #rename to race & frequency
 names(Race_frequency) [1] = "Race"
 
+# add percentage
+Race_frequency$perc <- round(Race_frequency$freq/nrow(demo)*100,2)
+
 #make it circular with coord_polar()
 race <- ggplot(Race_frequency, aes(x="", y= freq, fill= Race)) + geom_bar (stat= "identity", width=1) +
-  coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) 
+  coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + theme_void()
 rm(Race_frequency)
 
 # ====================
@@ -72,4 +75,6 @@ bins = seq(min(dt$Age, na.rm=TRUE), max(dt$Age, na.rm=TRUE), 1)
 
 # #build histogram
 age <- hist(dt$Age, breaks= bins, col= "grey")
+age <- ggplot(demo, aes(Age)) + geom_histogram(stat='count') + theme_minimal() 
+age
 

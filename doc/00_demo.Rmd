@@ -12,18 +12,18 @@ source('../02_graph_demo_data.R')
 
 ## Race
 
-```{r race}
+```{r race, echo = FALSE}
 race
 ```
 
 ## Income
-```{r income}
+```{r income, echo = FALSE }
 income
 ```
 
 
 ## Age
-```{r age}
+```{r age, echo = FALSE}
 age
 ```
 

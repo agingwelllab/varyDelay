@@ -24,7 +24,9 @@ ftp <- calculate_ftp(dt)
 bins = seq(min(ftp$FTP, na.rm=TRUE), round(max(ftp$FTP, na.rm=TRUE)), 0.5)
 
 # #build histogram
-ftp_hist <- hist(ftp$FTP, breaks= bins, col= "grey")
+#ftp_hist <- hist(ftp$FTP, breaks= bins, col= "grey")
+ftp_hist <- ggplot(ftp, aes(FTP)) + geom_histogram(stat='count') + theme_minimal() 
+ftp_hist
 
 # ==================== 
 # liquid savings
@@ -110,3 +112,4 @@ title <- "Would friends/family loan money and expect to be repaid?"
 extra_money <- ggplot(money, aes(x="", y= freq, fill= extra_money)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title)
 rm(money)
+
