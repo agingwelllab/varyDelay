@@ -11,7 +11,8 @@ library(stringr)
 
 # load data
 #dt <- read.csv(here::here('data', 'pilotdata.csv'))
-dt <- read.csv(here::here('data', 'varyDelay_March_6_softlaunch_n=29.csv'))
+#dt <- read.csv(here::here('data', 'varyDelay_March_6_softlaunch_n=29.csv'))
+dt <- read.csv(here::here('data', 'varyDelay_March_18_full_n=288.csv'))
                
 # add id column
 dt$ID <- c(0,0,seq(1,nrow(dt)-2,1))
