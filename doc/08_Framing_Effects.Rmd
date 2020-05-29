@@ -1,0 +1,51 @@
+---
+title: "Graphing Framing Effects"
+author: "Shelby Leverett"
+date: "4/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache= FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("../08_graph_framing_effect.R")
+```
+
+# Framing effects (collapsed across kvals)
+
+## *1 week vs 7 days*
+
+```{r 1 week vs 7 days, echo = FALSE}
+oneweek_vs_7days
+```
+
+## *1 month vs 4 weeks*
+
+```{r One month vs Four Weeks, echo = FALSE}
+onemonth_vs_4weeks
+```
+
+## *1 year vs 12 months*
+
+```{r 1 year vs 12 months, echo = FALSE}
+oneyear_vs_12months
+```
+
+# Framing effects (considering kvals)
+
+## *1 week vs 7 days vs kval*
+
+```{r 1 week vs 7 days vs kval, echo = FALSE}
+oneweek_vs_7days_vs_kval
+```
+
+## *1 month vs 4 weeks vs kval*
+
+```{r 1 month vs Four Weeks vs kval, echo = FALSE}
+onemonth_vs_4weeks_vs_kval
+```
+
+## *1 year vs 12 months vs kval*
+
+```{r 1 year vs 12 months vs kval, echo = FALSE}
+oneyear_vs_12months_vs_kval
+```

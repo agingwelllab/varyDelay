@@ -1,0 +1,25 @@
+---
+title: "Graphing Choice by Delay Unit"
+author: "Shelby Leverett"
+date: "4/16/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache= FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+source("../07_graph_by_delay_unit.R")
+```
+
+## *Proportion of Sooner Choice by Unit of Delay & Kval*
+
+```{r Delay Unit by Kval, echo = FALSE}
+graph_delay_unit_kval
+```
+
+
+## *Proportion of Sooner Options by Delay Unit, Kval, and Age*
+
+```{r Delay Unit by Kval & Age, echo = FALSE}
+graph_delay_unit_kval_age
+```
+
