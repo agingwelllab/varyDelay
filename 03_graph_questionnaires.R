@@ -32,10 +32,10 @@ ftp_hist
 # liquid savings
 # ==================== 
 dt$liquid_savings <- mapvalues(dt$liquid_savings, 
-            from = c('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'), 
-            to = c('less than $10,000', '$10,000-$19,999', '$20,000-$29,999', '$30,000-$39,999', 
-                   '$40,000-$49,999', '$50,000-$59,999', '$60,000-$69,999', '$70,000-$79,999', 
-                   '$80,000-$89,999', '$90,000-$99,999', '$100,000-$109,999', '$110,000-$119,999', '
+                               from = c('1', '2', '3', '4', '5', '6', '7', '8', '9', '10', '11', '12', '13', '14', '15', '16'), 
+                               to = c('less than $10,000', '$10,000-$19,999', '$20,000-$29,999', '$30,000-$39,999', 
+                                      '$40,000-$49,999', '$50,000-$59,999', '$60,000-$69,999', '$70,000-$79,999', 
+                                      '$80,000-$89,999', '$90,000-$99,999', '$100,000-$109,999', '$110,000-$119,999', '
                    $120,000-$129,999', '$130,000-$139,999', '$140,000-$149,999','$150,000 or more'))
 savings <- count(dt$liquid_savings)
 names(savings) [1] = "Savings"
@@ -46,7 +46,7 @@ title <- "How much money do you have in savings today (in cash, checking, and sa
 liquid_savings <- ggplot(savings, aes(x="", y= freq, fill= Savings)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title) + theme_void()
 rm(savings)
-
+liquid_savings
 # ==================== 
 # confidence
 # ==================== 
@@ -67,7 +67,7 @@ title <- "How confident are you to unexpectedly come up with $2,000 in 30 days?"
 confidence <- ggplot(conf, aes(x="", y= freq, fill= Confidence)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title) + theme_void()
 rm(conf)
-
+confidence
 # ==================== 
 # investments
 # ==================== 
@@ -81,7 +81,7 @@ title <- "Do you currently have non-retirement investments?"
 investments <- ggplot(invest, aes(x="", y= freq, fill= invest)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title) + theme_void()
 rm(invest)
-
+investments
 # ==================== 
 # health insurance
 # ==================== 
@@ -95,14 +95,14 @@ title <- "Do you currenly have health insurance?"
 health_ins <- ggplot(hins, aes(x="", y= freq, fill= Health)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title) + theme_void()
 rm(hins)
-
+health_ins
 # ==================== 
 # extra money
 # ==================== 
 #data key (qualtrics): 1= yes- have to repay; 2- yes- not have to repay; NA=NA
 dt$extra_money <- mapvalues(dt$extra_money, from = c('1', '2', 'NA'), 
-to = c("Yes and expect me to repay", 
-       "Yes with no expectation of repayment", "NA"))
+                            to = c("Yes and expect me to repay", 
+                                   "Yes with no expectation of repayment", "NA"))
 money <- count(dt$extra_money)
 names(money) [1] = "extra_money"
 money <- money[which(money$extra_money != 'NA'),]
@@ -112,4 +112,5 @@ title <- "Would friends/family loan money and expect to be repaid?"
 extra_money <- ggplot(money, aes(x="", y= freq, fill= extra_money)) + geom_bar (stat= "identity", width=1) +
   coord_polar ("y", start = 0) + theme(axis.text.x=element_blank()) + ggtitle(title) + theme_void()
 rm(money)
+extra_money
 
