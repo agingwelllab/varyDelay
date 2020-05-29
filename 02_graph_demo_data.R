@@ -6,6 +6,7 @@ library(here)
 library(plyr)
 library(ggplot2)
 
+
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 
@@ -66,7 +67,7 @@ demo$Income <- mapvalues(demo$Income, from = as.character(seq(1,16,1)),
 
 income <- ggplot(demo, aes(Income)) + geom_histogram(stat='count') + 
   theme_minimal() + theme(axis.text.x  = element_text(angle=90, vjust=0.5, size=12))
-
+income
 # ====================
 # histogram of age
 # ====================
