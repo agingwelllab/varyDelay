@@ -43,9 +43,9 @@ d2$delay_unit <- ifelse(str_detect(d2$delay, 'd'), 'days',
 
 # pull out the number in delay variable
 d2$n_unit <- ifelse(str_detect(d2$delay, '12'), '12', 
-                        ifelse(str_detect(d2$delay, '4'), '4', 
-                               ifelse(str_detect(d2$delay, '7'), '7',
-                                      ifelse(str_detect(d2$delay, '1'), '1', 0))))
+                    ifelse(str_detect(d2$delay, '4'), '4', 
+                           ifelse(str_detect(d2$delay, '7'), '7',
+                                  ifelse(str_detect(d2$delay, '1'), '1', 0))))
 
 
 # convert k vals to numeric
@@ -63,16 +63,25 @@ d3$label <- paste0(d3$n_unit, ' ', d3$delay_unit)
 d3$comparison <- c(1,3,2,2,1,3)
 
 # first comparison
-ggplot(d3[which(d3$comparison == 1),], aes(label, choice)) + geom_bar(stat='identity') +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2)
+oneweek_vs_7days <- ggplot(d3[which(d3$comparison == 1),], aes(label, choice)) + geom_bar(stat='identity', fill = "#009E73") +
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2) +
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
+
+oneweek_vs_7days
 
 #second comparison
-ggplot(d3[which(d3$comparison == 2),], aes(label, choice)) + geom_bar(stat='identity') +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2)
+onemonth_vs_4weeks <- ggplot(d3[which(d3$comparison == 2),], aes(label, choice)) + geom_bar(stat='identity', fill = "#CC79A7") +
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2) +
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
+
+onemonth_vs_4weeks
 
 #third comparison
-ggplot(d3[which(d3$comparison == 3),], aes(label, choice)) + geom_bar(stat='identity') +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2)
+oneyear_vs_12months <- ggplot(d3[which(d3$comparison == 3),], aes(label, choice)) + geom_bar(stat='identity', fill = "#D55E00") +
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2) + 
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
+
+oneyear_vs_12months
 
 ## add kvalue
 # summarize data 
@@ -87,18 +96,26 @@ d4$comparison <- c(1,1,1,
                    3,3,3)
 
 # first comparison
-ggplot(d4[which(d4$comparison == 1),], aes(label, choice, fill = kval)) + 
+oneweek_vs_7days_vs_kval <- ggplot(d4[which(d4$comparison == 1),], aes(label, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9))
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) +
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
+
+oneweek_vs_7days_vs_kval
 
 #second comparison
-ggplot(d4[which(d4$comparison == 2),], aes(label, choice, fill = kval)) + 
+onemonth_vs_4weeks_vs_kval <- ggplot(d4[which(d4$comparison == 2),], aes(label, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9))
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) +
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
+
+onemonth_vs_4weeks_vs_kval
 
 #third comparison
-ggplot(d4[which(d4$comparison == 3),], aes(label, choice, fill = kval)) + 
+oneyear_vs_12months_vs_kval <- ggplot(d4[which(d4$comparison == 3),], aes(label, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9))
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) +
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Framing')
 
+oneyear_vs_12months_vs_kval
 
