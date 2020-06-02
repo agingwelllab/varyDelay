@@ -42,6 +42,19 @@ d0$Age <- scale(d0$Age, center = TRUE, scale=TRUE)
 
 # 3 (kval) x 4 (delay_unit) x Age Within-Subjects ANCOVA
 m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit, kval), between = .(Age))
+saveRDS(m1, here::here('output', 'model1.RDS'))
+
+m2days <- ezANOVA(data = d0[which(d0$delay_unit == 'days'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
+saveRDS(m2days, here::here('output', 'model2.RDS'))
+
+m3weeks <- ezANOVA(data = d0[which(d0$delay_unit == 'weeks'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
+saveRDS(m3weeks, here::here('output', 'model3.RDS'))
+
+m4months <- ezANOVA(data = d0[which(d0$delay_unit == 'months'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
+saveRDS(m4months, here::here('output', 'model4.RDS'))
+
+m5year <- ezANOVA(data = d0[which(d0$delay_unit == 'years'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
+saveRDS(m5year, here::here('output', 'model5.RDS'))
 
 # create new variable - delay_n_days
 
