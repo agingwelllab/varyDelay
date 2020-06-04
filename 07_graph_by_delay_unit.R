@@ -52,6 +52,7 @@ graph_delay_unit_kval
 
 # by age
 d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
+
 # graph of averages across delay unit and kvalue
 d2 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 d2$delay_unit <- factor(d2$delay_unit, levels = c("days", "weeks", "months", "years"))
@@ -66,6 +67,10 @@ graph_delay_unit_kval_age <- ggplot(d2, aes(kval, choice, fill = kval)) +
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
   theme_minimal() + ylab('Proportion SS Choice') + xlab('kval') + facet_grid(delay_unit~agegrp) + theme(legend.position = 'null')
 
-
-graph_delay_unit_kval_age
-
+d3 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
+d3$delay_unit <- ordered(d3$delay_unit, levels = c("days", "weeks", "months", "years"))
+graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, color = agegrp)) + geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.1) +
+  geom_line() + geom_point() + geom_line() +theme_minimal() + ylab('Proportion SS Choice') 
+  
+  
+graph_delay_unit_age

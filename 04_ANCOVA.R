@@ -4,13 +4,13 @@
 # load required packages
 library(here)
 library(plyr)
-library(ggplot2)
 library(tidyverse)
 library(ez)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
+source(here::here('scr', 'pairedtable.R'))
 
 # set hard-coded variables
 
@@ -40,25 +40,32 @@ d0$Age <- scale(d0$Age, center = TRUE, scale=TRUE)
 
 # choice 1 = SS, choice 2 = LL
 
-# 3 (kval) x 4 (delay_unit) x Age Within-Subjects ANCOVA
-m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit, kval), between = .(Age))
+# 4 (delay_unit) x Age Within-Subjects ANCOVA
+m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age))
 saveRDS(m1, here::here('output', 'model1.RDS'))
 
-m2days <- ezANOVA(data = d0[which(d0$delay_unit == 'days'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
-saveRDS(m2days, here::here('output', 'model2.RDS'))
+d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
+d0$kval <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,2])
 
-m3weeks <- ezANOVA(data = d0[which(d0$delay_unit == 'weeks'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
-saveRDS(m3weeks, here::here('output', 'model3.RDS'))
+# recode choice into LL (1) or SS (0)
+d0$choice <- ifelse(d0$choice == 2, 0, 1)
+d0$choice <- as.numeric(d0$choice)
 
-m4months <- ezANOVA(data = d0[which(d0$delay_unit == 'months'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
-saveRDS(m4months, here::here('output', 'model4.RDS'))
+d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
 
-m5year <- ezANOVA(data = d0[which(d0$delay_unit == 'years'),], dv = .(choice), wid = .(ID), within = .(kval), between = .(Age))
-saveRDS(m5year, here::here('output', 'model5.RDS'))
+# get means for each delay unit
+d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("ID", "agegrp","delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 
-# create new variable - delay_n_days
+d1 <- d1 %>% pivot_wider(id_cols = c('ID', 'agegrp'),  names_from = delay_unit, values_from = choice)
+d2 <- d1[which(d1$agegrp == 'Younger'), ]
+d3 <- d1[which(d1$agegrp == 'Older'), ]
 
-# 3 (kval) x 10 (delay_n_days) x Age Within-Subjects ANCOVA
-#M2 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_n_days, kval), between = .(Age))
+younger <- pairedttable(d2[c(1,3:6)], colnames(d2[3:6]))
+younger$tval
+younger$`p values`
+saveRDS(younger, here::here('output', 'youngerttest.RDS'))
 
-
+older <- pairedttable(d3[c(1,3:6)], colnames(d3[3:6]))
+older$tval
+older$`p values`           
+saveRDS(older, here::here('output', 'olderttest.RDS'))

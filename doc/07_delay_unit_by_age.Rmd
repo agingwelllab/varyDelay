@@ -1,0 +1,72 @@
+---
+title: "07_delay_unit_by_age"
+author: "Kendra Seaman"
+date: "6/4/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache= FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(kableExtra)
+source("../07_graph_by_delay_unit.R")
+m1 <- readRDS("../output/model1.RDS")
+younger <- readRDS("../output/youngerttest.RDS")
+older <- readRDS("../output/olderttest.RDS")
+```
+
+## Proportion of Smaller, Sooner Choices by Delay and Age
+
+```{r Delay Unit by Kval, echo = FALSE}
+graph_delay_unit_age
+```
+
+```{r model, echo = FALSE}
+m1$ANOVA %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(1:3, bold =T, background = 'yellow')
+```
+
+There is main effect of age (which varied between-subjects) with older adults choosing the smaller, sooner option less. 
+
+```{r sphericity, echo = FALSE}
+m1$`Mauchly's Test for Sphericity` %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(1:2, bold =T, background = 'yellow')
+```
+
+Mauchley's test was significant for all within-subject variable, so use the GGe corrected values below:
+
+```{r correction, echo = FALSE}
+m1$`Sphericity Corrections` %>%
+  kable() %>%
+  kable_styling() %>%
+  row_spec(1:2, bold = T, background = 'yellow')
+```
+
+### Follow-up T-tests within age groups
+### Younger
+T-Value followed by p value
+```{r young, echo = FALSE}
+younger$tval %>%
+  kable() %>%
+  kable_styling() 
+
+younger$`p value` %>%
+  kable() %>%
+  kable_styling() 
+```
+
+### Older
+T-Value followed by p value
+```{r old, echo = FALSE}
+older$tval %>%
+  kable() %>%
+  kable_styling() 
+
+older$`p value` %>%
+  kable() %>%
+  kable_styling() 
+```
