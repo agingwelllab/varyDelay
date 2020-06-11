@@ -15,7 +15,7 @@ younger <- readRDS("../output/youngerttest.RDS")
 older <- readRDS("../output/olderttest.RDS")
 ```
 
-## Proportion of Smaller, Sooner Choices by Delay and Age
+# Proportion of Smaller, Sooner Choices by Delay and Age
 
 ```{r Delay Unit by Kval, echo = FALSE}
 graph_delay_unit_age
@@ -30,21 +30,24 @@ m1$ANOVA %>%
 
 There is main effect of age (which varied between-subjects) with older adults choosing the smaller, sooner option less. 
 
+***
+_Mauchley's test for sphericity:_
 ```{r sphericity, echo = FALSE}
 m1$`Mauchly's Test for Sphericity` %>%
   kable() %>%
   kable_styling() %>%
   row_spec(1:2, bold =T, background = 'yellow')
 ```
-
-Mauchley's test was significant for all within-subject variable, so use the GGe corrected values below:
-
+Mauchley's test was significant for all within-subject variable, so use the GGe corrected values below:  
+<p>&nbsp;</p>
+_Sphericity Corrections:_
 ```{r correction, echo = FALSE}
 m1$`Sphericity Corrections` %>%
   kable() %>%
   kable_styling() %>%
   row_spec(1:2, bold = T, background = 'yellow')
 ```
+***
 
 ### Follow-up T-tests within age groups
 ### Younger
