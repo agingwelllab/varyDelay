@@ -72,5 +72,6 @@ d3$delay_unit <- ordered(d3$delay_unit, levels = c("days", "weeks", "months", "y
 graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, color = agegrp)) + geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.1) +
   geom_line() + geom_point() + geom_line() +theme_minimal() + ylab('Proportion SS Choice') 
   
-  
 graph_delay_unit_age
+
+
