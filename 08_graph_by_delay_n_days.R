@@ -1,4 +1,4 @@
-# 2.26.20 KLS, CRG, SL
+# 6.23.20 KLS, SL
 # choice 1 = SS, choice 2 = LL
 
 # load required packages
@@ -50,9 +50,12 @@ d1$kval <- paste0('.', d1$kval) # more concise
 d1$kval <- as.numeric(as.character(d1$kval))
 
 # recode choice into LL (1) or SS (0)
-d0$choice <- ifelse(d0$choice == 2, 0, 1)
-d0$choice <- as.numeric(d0$choice)
+d1$choice <- d1$choice - 1 # more concise
+d1$choice <- as.numeric(d1$choice)
 
-# Simple Logistic Regression
-M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
-summary(M2)
+# make delay_n_days factor
+d1$delay_n_days <- factor(d1$delay_n_days)
+
+## graph choice by age by delay
+ggplot(d1, aes(Age, choice, color = delay_n_days, fill = delay_n_days)) + 
+  geom_smooth(method = 'lm', se = FALSE) + theme_minimal() + theme(legend.position="top") 

@@ -2,8 +2,6 @@ calculate_ftp <- function(data) {
   ### This function takes the Future Time Perspective data and calculates a 
   ### summary score
   ### data: the full data frame
-  ### id: the column number (or numbers) for participant identifier(s)
-  ### cols: columns of FTP data 
   library(here)
   library(psych)
   source(here::here('scr', 'isolate_data.R'))
@@ -19,4 +17,3 @@ calculate_ftp <- function(data) {
   return(d2)
 }
 
-data = dt

@@ -1,20 +1,35 @@
-# 2.26.20 KLS, CRG, SL
-# choice 1 = SS, choice 2 = LL
+# 6.23.20 KLS, SL
+# choice 1 = SS, choice 2 = LL until we change it!
 
 # load required packages
 library(here)
 library(plyr)
 library(tidyverse)
+library(Hmisc)
 
 # load source functions
-source(here::here('scr', 'isolate_data.R'))
-source(here::here('scr', 'summarySE.R'))
+source(here::here('scr', 'calculate_ftp.R'))
 
 # set hard-coded variables
 
 # load data
 dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 
+# score FTP
+ftp <- calculate_ftp(dt)
+dt <- merge(dt, ftp)
+rm(ftp)
+
+# create matrix for correlation
+columns <- c(grep('Age', colnames(dt)), grep('FTP', colnames(dt)), grep('liquid_savings', colnames(dt)), grep('confidence', colnames(dt)),
+             grep('investments', colnames(dt)), grep('extra_money', colnames(dt)), grep('health_ins', colnames(dt)))
+cor_matrix <- as.matrix(dt[columns])
+
+# correlation between age and FTP and safety net 
+cor_table <- rcorr(cor_matrix)
+rm(cor_matrix, columns)
+
+# Does ftp mediate the relationship between and and choice?
 # isolate gamble data
 gd <- isolate_data(dt, grep('ID', colnames(dt))[1], c(grep('Age', colnames(dt)), 
                                                       grep('X1d_1', colnames(dt)):grep('X10y_005', colnames(dt))))
@@ -50,9 +65,18 @@ d1$kval <- paste0('.', d1$kval) # more concise
 d1$kval <- as.numeric(as.character(d1$kval))
 
 # recode choice into LL (1) or SS (0)
-d0$choice <- ifelse(d0$choice == 2, 0, 1)
-d0$choice <- as.numeric(d0$choice)
+d1$choice <- ifelse(d1$choice == 2, 0, 1)
+d1$choice <- as.numeric(d1$choice)
 
-# Simple Logistic Regression
-M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
-summary(M2)
+# add FTP to d1
+d2 <- merge(d1, dt[c(1,96)])
+
+# Step 1 - age on FTP
+step1 <- lm(FTP ~ Age, data = d2[which(d2$delay_n_days == 3650),])
+
+# Step 2 - FTP on choice
+step2 <- glm(choice ~ FTP, data = d2[which(d2$delay_n_days == 3650),])
+
+# Step 3 - 
+step3 <- glm(choice ~ FTP + Age, data = d2[which(d2$delay_n_days == 3650),])
+
