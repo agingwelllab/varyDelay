@@ -1,0 +1,51 @@
+---
+title: "10_exploratory_analyses"
+author: "Shelby Leverett"
+date: "6/26/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE, cache= FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(knitr)
+library(kableExtra)
+source("../10_exploratory_analyses.R")
+```
+
+# Correlations Between Age, FTP, and Savings & Safety Nets
+
+```{r correlation matrix, echo = FALSE}
+cor_table
+```
+
+
+There is significant negative correlation between Age & FTP, so as age increases, time horizons decrease. 
+There is also a significant negative correlation between Age and Health Insurance. As age increases, health insurance coverage increases (for health_ins: 1=Yes, 2=No).
+There is a slight positive correlation between Age and Liquid Savings (r=.11, p=.06)
+
+- FTP: higher scores = longer time horizions
+- health_ins: 1=Yes, 2= No --> so lower health_ins scores means more insurance
+
+# Does FTP mediate the relationship between age and choice?
+
+For the trials where the effect of age  on discounting behavior is strongest (i.e: delay=10 years), is this effect mediated by FTP?
+
+## Step 1: Age --> FTP
+
+```{r age on ftp, echo=FALSE}
+summary(step1)
+```
+FTP significantly predicts age (B= -.02, p=.000)
+
+## Step 2: FTP --> Choice
+```{r ftp on choice, echo = FALSE}
+summary(step2)
+```
+FTP does not predict choice (B= -.003, p=.82)
+
+## Step 3: FTP + AGE --> Choice
+```{r ftp+age on choice, echo=FALSE}
+summary(step3)
+```
+
+FTP does not mediate the relationship between age and choice.
