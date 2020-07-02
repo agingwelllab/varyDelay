@@ -17,11 +17,12 @@ dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 
 # score FTP
 ftp <- calculate_ftp(dt)
+ftp <- ftp %>% rename(ftp = FTP)
 dt <- merge(dt, ftp)
 rm(ftp)
 
 # create matrix for correlation
-columns <- c(grep('Age', colnames(dt)), grep('FTP', colnames(dt)), grep('liquid_savings', colnames(dt)), grep('confidence', colnames(dt)),
+columns <- c(grep('Age', colnames(dt)), grep('ftp', colnames(dt)), grep('liquid_savings', colnames(dt)), grep('confidence', colnames(dt)),
              grep('investments', colnames(dt)), grep('extra_money', colnames(dt)), grep('health_ins', colnames(dt)))
 cor_matrix <- as.matrix(dt[columns])
 
@@ -72,11 +73,11 @@ d1$choice <- as.numeric(d1$choice)
 d2 <- merge(d1, dt[c(1,96)])
 
 # Step 1 - age on FTP
-step1 <- lm(FTP ~ Age, data = d2[which(d2$delay_n_days == 3650),])
+step1 <- lm(ftp ~ Age, data = d2[which(d2$delay_n_days == 3650),])
 
 # Step 2 - FTP on choice
-step2 <- glm(choice ~ FTP, data = d2[which(d2$delay_n_days == 3650),])
+step2 <- glm(choice ~ ftp, data = d2[which(d2$delay_n_days == 3650),])
 
-# Step 3 - 
-step3 <- glm(choice ~ FTP + Age, data = d2[which(d2$delay_n_days == 3650),])
+# Step 3 - age + FTP on choice
+step3 <- glm(choice ~ ftp + Age, data = d2[which(d2$delay_n_days == 3650),])
 
