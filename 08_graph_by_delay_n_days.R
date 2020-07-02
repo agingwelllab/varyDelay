@@ -57,5 +57,7 @@ d1$choice <- as.numeric(d1$choice)
 d1$delay_n_days <- factor(d1$delay_n_days)
 
 ## graph choice by age by delay
-ggplot(d1, aes(Age, choice, color = delay_n_days, fill = delay_n_days)) + 
+choice_by_age_by_delay_n_days <- ggplot(d1, aes(Age, choice, color = delay_n_days, fill = delay_n_days)) + 
   geom_smooth(method = 'lm', se = FALSE) + theme_minimal() + theme(legend.position="top") 
+
+choice_by_age_by_delay_n_days
