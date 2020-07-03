@@ -50,8 +50,8 @@ d1$kval <- paste0('.', d1$kval) # more concise
 d1$kval <- as.numeric(as.character(d1$kval))
 
 # recode choice into LL (1) or SS (0)
-d0$choice <- ifelse(d0$choice == 2, 0, 1)
-d0$choice <- as.numeric(d0$choice)
+d1$choice <- ifelse(d1$choice == 2, 0, 1)
+d1$choice <- as.numeric(d1$choice)
 
 # Simple Logistic Regression
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
