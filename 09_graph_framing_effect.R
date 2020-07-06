@@ -52,7 +52,7 @@ d2$n_unit <- ifelse(str_detect(d2$delay, '12'), '12',
 #d2$kval <- paste0('.', d2$kval) # more concise
 #d2$kval <- as.numeric(as.character(d2$kval))
 
-# recode choice into LL (1) or SS (0)
+# recode choice into LL (0) or SS (1)
 d2$choice <- ifelse(d2$choice == 2, 0, 1)
 d2$choice <- as.numeric(d2$choice)
 

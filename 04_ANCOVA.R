@@ -47,7 +47,7 @@ saveRDS(m1, here::here('output', 'model1.RDS'))
 d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
 d0$kval <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,2])
 
-# recode choice into LL (1) or SS (0)
+# recode choice into LL (0) or SS (1)
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
 

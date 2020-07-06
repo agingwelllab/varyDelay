@@ -14,11 +14,13 @@ source("../10_exploratory_analyses.R")
 
 # Correlations Between Age, FTP, and Savings & Safety Nets
 
-```{r correlation matrix, echo = FALSE}
-cor_table
+```{r correlation matrix, echo = FALSE, comment=''}
+as.data.frame(cor_table$r)[1]
 ```
-
-
+p values
+```{r correlation matrix2, echo = FALSE, comment=''}
+as.data.frame(cor_table$P)[1]
+```
 There is significant negative correlation between Age & FTP, so as age increases, time horizons decrease. 
 There is also a significant negative correlation between Age and Health Insurance. As age increases, health insurance coverage increases (for health_ins: 1=Yes, 2=No).
 There is a slight positive correlation between Age and Liquid Savings (r=.11, p=.06)

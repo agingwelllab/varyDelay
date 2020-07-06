@@ -34,7 +34,7 @@ d0$delay_unit <- ifelse(str_detect(d0$delay, 'd'), 'days',
                                ifelse(str_detect(d0$delay, 'm'), 'months',
                                       ifelse(str_detect(d0$delay, 'y'), 'years', 0))))
 
-# recode choice into LL (1) or SS (0)
+# recode choice into LL (0) or SS (1)
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
 
