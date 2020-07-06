@@ -1,5 +1,5 @@
 ---
-title: "08_delay_in_days_results"
+title: "08_results_logistic_regression"
 author: "Shelby Leverett"
 date: "7/2/2020"
 output: html_document
@@ -12,10 +12,13 @@ library(kableExtra)
 source("../08_graph_by_delay_n_days.R")
 source("../05_linear_model.R")
 ```
-# Logistic Regression of age x delay in days on choice
+
+# Logistic Regression of age, delay(days), and age x delay(days) on choice
+
 ```{r age x delay in days on choice model, echo=FALSE}
 summary(M2)
 ```
+There are significant main effects of age and of delay (in days) on choice. There is also a signficiant age x delay (in days) interaction on choice.
 
 # Graphing age x delay in days on choice
 ```{r choice ~ age x days, echo=FALSE}
