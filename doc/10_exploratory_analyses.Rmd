@@ -10,6 +10,8 @@ knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(kableExtra)
 source("../10_exploratory_analyses.R")
+source("../09_graph_framing_effect.R")
+source("../06_framing_effect_model.R")
 ```
 
 # Correlations Between Age, FTP, and Savings & Safety Nets
@@ -51,3 +53,27 @@ summary(step3)
 ```
 
 FTP does not mediate the relationship between age and choice.
+
+# Framing Effects
+
+## *1 week vs 7 days*
+
+```{r 1 week vs 7 days, echo = FALSE}
+oneweek_vs_7days
+```
+
+## *1 month vs 4 weeks*
+
+```{r One month vs Four Weeks, echo = FALSE}
+onemonth_vs_4weeks
+```
+
+## *1 year vs 12 months*
+
+```{r 1 year vs 12 months, echo = FALSE}
+oneyear_vs_12months
+```
+
+```{r Framing Model Summary M3, echo=FALSE}
+summary(M3)
+```
