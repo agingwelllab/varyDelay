@@ -69,3 +69,9 @@ older <- pairedttable(d3[c(1,3:6)], colnames(d3[3:6]))
 older$tval
 older$`p values`           
 saveRDS(older, here::here('output', 'olderttest.RDS'))
+
+# between-subs t-tests
+days_t <- t.test(d2$days, d3$days)
+weeks_t <- t.test(d2$weeks, d3$weeks)
+
+
