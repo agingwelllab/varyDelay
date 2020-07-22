@@ -49,7 +49,16 @@ d2$kval <- as.numeric(as.character(d2$kval))
 d2$choice <- ifelse(d2$choice == 2, 0, 1)
 d2$choice <- as.numeric(d2$choice)
 
+# contrast codes
+my.forward.diff = matrix(c(3/4, -1/4, -1/4, -1/4, 1/2, 1/2, -1/2, -1/2, 1/
+                             4, 1/4, 1/4, -3/4), ncol = 3)
+
+# assign contrast code to delay variable
+d2$delay_unit <- factor(d2$delay_unit, levels = c('days', 'weeks', 'months', 'years'))
+
+contrasts(d2$delay_unit) = my.forward.diff
+
 # Create Models and Test
 M3 <- glm(d2$choice ~ d2$frame + d2$delay_unit + d2$Age, family=binomial(link='logit'), data = d2)
-
+summary(M3)
 
