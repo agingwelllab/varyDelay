@@ -73,5 +73,7 @@ saveRDS(older, here::here('output', 'olderttest.RDS'))
 # between-subs t-tests
 days_t <- t.test(d2$days, d3$days)
 weeks_t <- t.test(d2$weeks, d3$weeks)
+months_t <- t.test(d2$months, d3$months)
+years_t <- t.test(d2$years, d3$years)
 
 

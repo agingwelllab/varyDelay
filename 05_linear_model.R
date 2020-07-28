@@ -49,7 +49,7 @@ d1$delay_n_days <- as.numeric(str_replace(d1$delay_n_days, "360", "365"))
 d1$kval <- paste0('.', d1$kval) # more concise
 d1$kval <- as.numeric(as.character(d1$kval))
 
-# recode choice into LL (0) or SS (1)
+# recode choice into LL (1) or SS (0)
 d1$choice <- ifelse(d1$choice == 2, 0, 1)
 d1$choice <- as.numeric(d1$choice)
 

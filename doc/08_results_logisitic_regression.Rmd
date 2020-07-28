@@ -25,6 +25,6 @@ There are significant main effects of age and of delay (in days) on choice. Ther
 choice_by_age_by_delay_n_days
 ```
 
-SS=0, LL=1
+SS=1, LL=0
 
 For delays of 10 years (3650 days), older adults discount more (choose SS more often)
