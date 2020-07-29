@@ -77,3 +77,5 @@ oneyear_vs_12months
 ```{r Framing Model Summary M3, echo=FALSE}
 summary(M3)
 ```
+
+Controlling for age, frame was only significant for one out of three levels. Framing the delay as "4 weeks" instead of "1 month" increased discounting (maybe run a t-test here?!). The other frames (i.e: 12 months vs 1 year, and 7 days vs 1 week) had no significant effect on discounting.
