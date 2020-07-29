@@ -962,7 +962,41 @@ NA
 </tr>
 </tbody>
 </table>
+<hr />
 </div>
+</div>
+<div id="does-discounting-increase-with-longer-time-delays" class="section level1">
+<h1>Does discounting increase with longer time delays?</h1>
+<p>No, main effect of delay in both models, however discounting generally decreases with longer time delays.</p>
+<hr />
+</div>
+<div id="are-there-age-differences-for-discounting-across-different-delay-lengths" class="section level1">
+<h1>Are there age differences for discounting across different delay lengths?</h1>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  d2$weeks and d3$weeks
+## t = 2.8361, df = 285.49, p-value = 0.004894
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.0332893 0.1843033
+## sample estimates:
+## mean of x mean of y 
+## 0.6489198 0.5401235</code></pre>
+<pre><code>## 
+##  Welch Two Sample t-test
+## 
+## data:  d2$months and d3$months
+## t = 2.307, df = 285.88, p-value = 0.02177
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.01347946 0.17016251
+## sample estimates:
+## mean of x mean of y 
+## 0.5740741 0.4822531</code></pre>
+<p>For delays of weeks, younger adults (m=0.65) discount signficantly more than older adults (m= 0.54).<br />
+For delays of months, younger adults (m=0.57) also discount significantly more than older adults (m=0.48).<br />
+There were no significant age differences in days or years.</p>
 </div>
 
 

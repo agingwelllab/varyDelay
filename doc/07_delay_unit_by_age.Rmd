@@ -10,6 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(knitr)
 library(kableExtra)
 source("../07_graph_by_delay_unit.R")
+source("../04_ANCOVA.R")
 m1 <- readRDS("../output/model1.RDS")
 younger <- readRDS("../output/youngerttest.RDS")
 older <- readRDS("../output/olderttest.RDS")
@@ -73,3 +74,16 @@ older$`p value` %>%
   kable() %>%
   kable_styling() 
 ```
+***
+# Does discounting increase with longer time delays?
+No, main effect of delay in both models, however discounting generally decreases with longer time delays.  
+
+***
+# Are there age differences for discounting across different delay lengths?
+```{r b/n group t-tests, echo=FALSE}
+weeks_t
+months_t
+```
+For delays of weeks, younger adults (m=0.65) discount signficantly more than older adults (m= 0.54).  
+For delays of months, younger adults (m=0.57) also discount significantly more than older adults (m=0.48).  
+There were no significant age differences in days or years.
