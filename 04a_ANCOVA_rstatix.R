@@ -43,10 +43,15 @@ d0$Age <- scale(d0$Age, center = TRUE, scale=TRUE)
 
 # rstatix- 4 (dely_unit, within) x age (between) ANCOVA (mixed)
 d0$Age <- as.vector(d0$Age)
-m1_rstatix <- anova_test (data=d0, choice ~ Age*delay_unit, wid=ID, within= delay_unit, between = Age)
+d0$delay_unit <- as.factor(d0$delay_unit)
+d0$ID <- as.factor(d0$ID)
+m1_rstatix <- anova_test (data=d0, choice ~ Age*delay_unit, wid=ID, within= delay_unit) #between = Age)
 #that runs, but I don't know if it's doing an repeated test- v. different output than m1 & df's are v. high!
+#testing adding covariate to equation
+m2_rstatix <- anova_test(data=d0, choice ~ Age + Age*delay_unit, wid=ID, within= delay_unit)
+m3_rstatix <- anova_test(data = d0, dv = choice, wid = ID, within = delay_unit) #this should work, saying error b/c of NA's- which we dont have
+m4_rstatix <- aov(choice ~ Age*delay_unit + Error(ID/delay_unit), data=d0) #this gives correct df!
 # have seen choice~ Age*delay + Error(ID/delay_unit)- but getting error messages
-
 
 # 4 (delay_unit) x Age Within-Subjects ANCOVA
 m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age))
