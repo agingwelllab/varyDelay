@@ -1,12 +1,13 @@
 # 10.14.20 SL
 # choice 1 = SS, choice 2 = LL
-
+install.packages("sjstats")
 # load required packages- in order for rstatix to work, make sure to update dplyr package 
 library(here)
 library(plyr)
 library(tidyverse)
 library(rstatix)
 library(ez)
+library(sjstats) #calculates effect sizes (for aov models & logistic regression models)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -62,17 +63,18 @@ d0$delay_unit <- as.factor(d0$delay_unit)
 d0$ID <- as.factor(d0$ID)
 d0$choice <- as.numeric(d0$choice)
 
-m1_rstatix <- anova_test (data=d0, choice ~ Age*delay_unit, wid=ID, within= delay_unit, covariate = Age)
-#that runs, but I don't know if it's doing an repeated test- v. different output than m1 & df's are v. high!
+#m1_rstatix <- anova_test (data=d0, choice ~ Age*delay_unit, wid=ID, within= delay_unit, covariate = Age)
+#that runs, but I don't think it's doing an repeated test- v. different output than m1 & df's are v. high!
 #testing adding covariate to equation
-m2_rstatix <- anova_test(data=d0, choice ~ Age + Age*delay_unit, wid=ID, within= delay_unit) #don't think Age is seen as within variable
+#m2_rstatix <- anova_test(data=d0, choice ~ Age + Age*delay_unit, wid=ID, within= delay_unit) #don't think Age is seen as within variable
 #m1_rstatix=m2_rstatix
-m3_rstatix <- anova_test(data = d0, dv = choice, wid = ID, within = delay_unit, coviariate= Age, effect.size = "pes") #this should be the correct one, saying error b/c of NA's- which we dont have- recommended ezANOVA 
-m4_rstatix <- aov(choice ~ Age*delay_unit + Error(ID/delay_unit), data=d0) #this gives correct df- definitely within, but no idea where mauchley's is
+#m3_rstatix <- anova_test(data = d0, dv = choice, wid = ID, within = delay_unit, covariate = Age, effect.size = "pes") #this should be the correct one, saying error b/c of NA's- which we dont have- recommended ezANOVA 
+#get_anova_table(m3_rstatix, correction = "GG")
 
-#next: try to get GG corrections to work w/ ezANOVA!
-# 4 (delay_unit) x Age Within-Subjects ANCOVA
-m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age))
+m4_rstatix <- aov(choice ~ Age*delay_unit + Error(ID/delay_unit), data=d0) #this gives correct df- definitely within, but aov gives no sphericity corrections
+summary(m4_rstatix)
+eta_sq(m4_rstatix, partial=TRUE)
+
 saveRDS(m1, here::here('output', 'model1.RDS'))
 
 d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
