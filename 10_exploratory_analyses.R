@@ -74,10 +74,16 @@ d2 <- merge(d1, dt[c(1,96)])
 
 # Step 1 - age on FTP
 step1 <- lm(ftp ~ Age, data = d2[which(d2$delay_n_days == 3650),])
+summary(step1)
 
 # Step 2 - FTP on choice
 step2 <- glm(choice ~ ftp, data = d2[which(d2$delay_n_days == 3650),])
+summary(step2)
 
 # Step 3 - age + FTP on choice
 step3 <- glm(choice ~ ftp + Age, data = d2[which(d2$delay_n_days == 3650),])
+summary(step3)
 
+#Step 0- age on choice
+step0 <- glm(choice ~ Age, data = d2[which(d2$delay_n_days == 3650),])
+summary(step0)
