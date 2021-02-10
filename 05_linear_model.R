@@ -57,5 +57,3 @@ d1$choice <- as.numeric(d1$choice)
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 summary(M2)
 
-# effect size- need odss ratio- need to find an alternate method  
-odds_to_rr(M2)  #wrong object class
