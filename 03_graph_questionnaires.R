@@ -5,6 +5,7 @@
 library(here)
 library(plyr)
 library(ggplot2)
+library(psych)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
