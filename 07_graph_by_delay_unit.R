@@ -50,26 +50,12 @@ graph_delay_unit_kval <- ggplot(d1, aes(delay_unit, choice, fill = kval)) +
 
 graph_delay_unit_kval
 
-### testing SL- trying to graph main effect of delay unit
-graph_delay_unit <- ggplot(d1, aes(delay_unit, choice)) + 
-  geom_bar(stat='identity', position=position_dodge()) +
-  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
-  theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay')
-
-graph_delay_unit
-###testing over
-
 # by age
 d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
 
 # graph of averages across delay unit and kvalue
 d2 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 d2$delay_unit <- factor(d2$delay_unit, levels = c("days", "weeks", "months", "years"))
-
-# graph_delay_unit_kval_age <- ggplot(d2, aes(delay_unit, choice, fill = kval)) + 
-#   geom_bar(stat='identity', position=position_dodge()) +
-#   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
-#   theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay') + facet_wrap(.~agegrp)
 
 graph_delay_unit_kval_age <- ggplot(d2, aes(kval, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
