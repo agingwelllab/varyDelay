@@ -62,11 +62,25 @@ graph_delay_unit_kval_age <- ggplot(d2, aes(kval, choice, fill = kval)) +
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
   theme_minimal() + ylab('Proportion SS Choice') + xlab('kval') + facet_grid(delay_unit~agegrp) + theme(legend.position = 'null')
 
+# graph of averages across delay unit by age - FIGURE 1
 d3 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 d3$delay_unit <- ordered(d3$delay_unit, levels = c("days", "weeks", "months", "years"))
-graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, color = agegrp)) + geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.1) +
-  geom_line() + geom_point() + geom_line() +theme_minimal() + ylab('Proportion SS Choice') 
+
+graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, fill = agegrp)) + 
+  geom_bar(stat= 'identity', position=position_dodge()) + 
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) +
+  theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
+                            axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
+                            axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
+                            strip.text.x = element_text(size=20), 
+                          legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
+  scale_fill_discrete(name = "Age Group") + scale_color_discrete(name = "Age Group") + 
+  ylab('Proportion SS Choice') + xlab('Delay Unit') 
   
 graph_delay_unit_age
 
+#save graph
+png(here::here('figs', 'delay_unit_x_age_grp.png'), width = 600, height = 600)
+graph_delay_unit_age
+dev.off()
 
