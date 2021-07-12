@@ -5,6 +5,9 @@
 library(here)
 library(plyr)
 library(tidyverse)
+library(stats)
+install.packages("reghelper")
+library("reghelper")
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -57,3 +60,5 @@ d1$choice <- as.numeric(d1$choice)
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 summary(M2)
 
+#find standardzied coefficients (beta)
+standardized_betas <- beta(M2)
