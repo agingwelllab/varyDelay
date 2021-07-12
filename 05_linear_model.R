@@ -60,5 +60,16 @@ d1$choice <- as.numeric(d1$choice)
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 summary(M2)
 
-#find standardzied coefficients (beta)
+#find standardzied coefficients (beta)- this didnt work
 standardized_betas <- beta(M2)
+
+# standardize (mean center/sd) all variables in model
+d1 <- d1 %>% mutate(age_standard = ((Age-mean(Age))/sd(Age)))
+d1 <- d1 %>% mutate(delay_n_days_standard = ((delay_n_days-mean(delay_n_days))/sd(delay_n_days)))
+d1 <- d1 %>% mutate(choice_standard = ((choice-mean(choice))/sd(choice)))
+d1 <- d1 %>% mutate(choice_standard_factor = as.factor(choice_standard))
+
+#Re-run logistic regression model w/ standardized variables to get standardized betas
+M2_standard <- glm(d1$choice ~ d1$age_standard * d1$delay_n_days_standard, family = binomial(link = 'logit'), data = d1)
+summary(M2_standard)
+
