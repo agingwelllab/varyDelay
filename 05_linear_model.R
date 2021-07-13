@@ -66,10 +66,28 @@ standardized_betas <- beta(M2)
 # standardize (mean center/sd) all variables in model
 d1 <- d1 %>% mutate(age_standard = ((Age-mean(Age))/sd(Age)))
 d1 <- d1 %>% mutate(delay_n_days_standard = ((delay_n_days-mean(delay_n_days))/sd(delay_n_days)))
-d1 <- d1 %>% mutate(choice_standard = ((choice-mean(choice))/sd(choice)))
-d1 <- d1 %>% mutate(choice_standard_factor = as.factor(choice_standard))
+d1 <- d1 %>% mutate(age_scale= scale(Age, center = TRUE, scale = TRUE))
+
+#double check standardization
+#hist(d1$Age)
+#hist(d1$age_standard)
+#hist(d1$delay_n_days)
+#hist(d1$delay_n_days_standard)
+#hist(d1$Age, breaks = 10)
+#hist(d1$age_standard, breaks = 10)
 
 #Re-run logistic regression model w/ standardized variables to get standardized betas
 M2_standard <- glm(d1$choice ~ d1$age_standard * d1$delay_n_days_standard, family = binomial(link = 'logit'), data = d1)
 summary(M2_standard)
+# we don't think these are right, because the M2 and M2_standard model results are different
 
+# Alternatate Standardized Coefficients via function
+stdz.coff <- function (regmodel)
+{ b <- summary(regmodel)$coef[-1,1]
+sx <- sapply(regmodel$model[-1], sd)
+beta <-(3^(1/2))/pi * sx * b
+return(beta)
+}
+
+stdz.coff(M2)
+#hopefully these beta's are right!
