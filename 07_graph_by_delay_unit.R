@@ -3,9 +3,10 @@
 
 # load required packages
 library(here)
+library(tidyverse)
 library(plyr)
 library(ggplot2)
-library(tidyverse)
+library(ggdist)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -79,7 +80,37 @@ graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, fill = agegrp)) +
   
 graph_delay_unit_age
 
-#save graph
+# violin graphs 
+
+graph_delay_unit_age_violin <-ggplot(d2, aes(delay_unit, choice, fill = agegrp))+
+  geom_violin(trim=FALSE, adjust = .9) +
+  geom_boxplot( width = .1, position=position_dodge(.9)) +
+  stat_summary(fun = median, geom = "point", shape = 21, size = 2.5, position=position_dodge(.9)) +
+  theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
+                        axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
+                        axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
+                        strip.text.x = element_text(size=20), 
+                        legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
+  scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
+  ylab('Proportion SS Choice') + xlab('Delay Unit')
+
+graph_delay_unit_age_violin
+
+graph_delay_unit_age_violin2 <-ggplot(d2, aes(delay_unit, choice, fill = agegrp))+
+  geom_violin(trim=TRUE, adjust = .9) +
+  geom_boxplot( width = .1, position=position_dodge(.9)) +
+  stat_summary(fun = median, geom = "point", shape = 21, size = 2.5, position=position_dodge(.9)) +
+  theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
+                          axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
+                          axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
+                          strip.text.x = element_text(size=20), 
+                          legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
+  scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
+  ylab('Proportion SS Choice') + xlab('Delay Unit')
+
+graph_delay_unit_age_violin2
+
+#save graphs
 png(here::here('figs', 'delay_unit_x_age_grp.png'), width = 600, height = 600)
 graph_delay_unit_age
 dev.off()
