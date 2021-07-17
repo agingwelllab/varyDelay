@@ -3,10 +3,10 @@
 
 # load required packages
 library(here)
-library(plyr)
 library(tidyverse)
+library(plyr)
 library(stats)
-install.packages("reghelper")
+#install.packages("reghelper")
 library("reghelper")
 
 # load source functions
@@ -60,6 +60,9 @@ d1$choice <- as.numeric(d1$choice)
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 summary(M2)
 
+# Discount rate added regression model
+M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
+summary(M3)
 #find standardzied coefficients (beta)- this didnt work
 standardized_betas <- beta(M2)
 
