@@ -116,7 +116,7 @@ beta <-(3^(1/2))/pi * sx * b
 return(beta)
 }
 
-stdz.coff(M2)
+M2_stdz_coff <- stdz.coff(M2)
 #hopefully these beta's are right!
 
 # Stargazer Tables
