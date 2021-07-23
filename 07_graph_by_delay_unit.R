@@ -40,6 +40,9 @@ d0$delay_unit <- ifelse(str_detect(d0$delay, 'd'), 'days',
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
 
+# Add Age group
+d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
+
 # graph of averages across delay unit and kvalue (Now breaks down by age group also.)
 d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp", "delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 
@@ -49,12 +52,10 @@ graph_delay_unit_kval <- ggplot(d1, aes(delay_unit, choice, fill = kval)) +
   geom_bar(stat='identity', position=position_dodge()) +
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
   theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay') +
-  facet_grid(rows=vars(agegrp))
+  facet_grid(rows=vars(agegrp)) + 
+  scale_fill_hue(name = "Discount Rate") + scale_color_grey(name = "Discount Rate") 
 
 graph_delay_unit_kval
-
-# by age
-d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
 
 # graph of averages across delay unit and kvalue
 d2 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
