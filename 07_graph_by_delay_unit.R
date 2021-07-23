@@ -7,6 +7,7 @@ library(tidyverse)
 library(plyr)
 library(ggplot2)
 library(ggdist)
+library(EnvStats)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -39,15 +40,16 @@ d0$delay_unit <- ifelse(str_detect(d0$delay, 'd'), 'days',
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
 
-# graph of averages across delay unit and kvalue
-d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
+# graph of averages across delay unit and kvalue (Now breaks down by age group also.)
+d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp", "delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 
 d1$delay_unit <- factor(d1$delay_unit, levels = c("days", "weeks", "months", "years"))
 
 graph_delay_unit_kval <- ggplot(d1, aes(delay_unit, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
-  theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay')
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay') +
+  facet_grid(rows=vars(agegrp))
 
 graph_delay_unit_kval
 
@@ -80,35 +82,43 @@ graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, fill = agegrp)) +
   
 graph_delay_unit_age
 
-# violin graphs 
+# Raincloud graphs
 
-graph_delay_unit_age_violin <-ggplot(d2, aes(delay_unit, choice, fill = agegrp))+
-  geom_violin(trim=FALSE, adjust = .9) +
-  geom_boxplot( width = .1, position=position_dodge(.9)) +
-  stat_summary(fun = median, geom = "point", shape = 21, size = 2.5, position=position_dodge(.9)) +
-  theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
-                        axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
-                        axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
-                        strip.text.x = element_text(size=20), 
-                        legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
-  scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
-  ylab('Proportion SS Choice') + xlab('Delay Unit')
-
-graph_delay_unit_age_violin
-
-graph_delay_unit_age_violin2 <-ggplot(d2, aes(delay_unit, choice, fill = agegrp))+
-  geom_violin(trim=TRUE, adjust = .9) +
-  geom_boxplot( width = .1, position=position_dodge(.9)) +
-  stat_summary(fun = median, geom = "point", shape = 21, size = 2.5, position=position_dodge(.9)) +
+ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) + 
+  ggdist::stat_halfeye(
+    adjust = .5,
+    width = .6, 
+    ## set slab interval to show IQR and 95% data range
+    .width = c(.5, .95)
+  )  +
+  coord_cartesian(xlim = c(1.2, NA)) +
+  facet_grid(rows = vars(agegrp)) +
+  coord_flip() +
   theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
                           axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
                           axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
                           strip.text.x = element_text(size=20), 
                           legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
   scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
-  ylab('Proportion SS Choice') + xlab('Delay Unit')
+  ylab('Proportion of Smaller Sooner Choices') + xlab('Delay Unit') 
 
-graph_delay_unit_age_violin2
+# Stacked Graph
+ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) + 
+  ggdist::stat_halfeye(
+    adjust = .5,
+    width = .6, 
+    ## set slab interval to show IQR and 95% data range
+    .width = c(.5, .95)
+  )  +
+  coord_cartesian(xlim = c(1.2, NA)) +
+  coord_flip() +
+  theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
+                          axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
+                          axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
+                          strip.text.x = element_text(size=20), 
+                          legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
+  scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
+  ylab('Proportion of Smaller Sooner Choices') + xlab('Delay Unit') 
 
 #save graphs
 png(here::here('figs', 'delay_unit_x_age_grp.png'), width = 600, height = 600)
