@@ -87,3 +87,15 @@ summary(step3)
 #Step 0- age on choice
 step0 <- glm(choice ~ Age, data = d2[which(d2$delay_n_days == 3650),])
 summary(step0)
+
+#find standardized betas
+stdz.coff <- function (regmodel)
+{ b <- summary(regmodel)$coef[-1,1]
+sx <- sapply(regmodel$model[-1], sd)
+beta <-(3^(1/2))/pi * sx * b
+return(beta)
+}
+stdz.coff(step1)
+stdz.coff(step2)
+stdz.coff(step3)
+stdz.coff(step0)
