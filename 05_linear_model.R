@@ -8,10 +8,12 @@ library(plyr)
 library(stats)
 #install.packages("reghelper")
 library("reghelper")
+library("stargazer")
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
+source(here::here('scr', 'logistic_pseudoR2.R'))
 
 # set hard-coded variables
 
@@ -56,13 +58,35 @@ d1$kval <- as.numeric(as.character(d1$kval))
 d1$choice <- ifelse(d1$choice == 2, 0, 1)
 d1$choice <- as.numeric(d1$choice)
 
+# By Age
+d1$agegrp <- ifelse(d1$Age > median(d1$Age), 'Older', 'Younger')
+
 # Simple Logistic Regression
 M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 summary(M2)
 
+# Generate post-hoc test variables.
+
+LogisticPseudoR2s(M2)
+d1$predicted.probabilites<-fitted(M2)
+d1$standardized.residuals<-rstandard(M2)
+d1$studentized.residuals<-rstudent(M2)
+d1$dfbeta<-dfbeta(M2)
+d1$dffit<-dffits(M2)
+d1$leverage<-hatvalues(M2)
+
+# Test for linearity
+d1$logDelay_in_days <- log(d1$delay_n_days)*d1$delay_n_days
+d1$logAge <- log(d1$Age)*d1$Age
+M2LinearTest <- glm(d1$choice~d1$Age * d1$delay_n_days + d1$logDelay_in_days * d1$logAge, family = binomial(link = "logit"), data = d1 )
+summary(M2LinearTest)
+
+
 # Discount rate added regression model
 M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
 summary(M3)
+
+
 #find standardzied coefficients (beta)- this didnt work
 standardized_betas <- beta(M2)
 
@@ -94,3 +118,11 @@ return(beta)
 
 stdz.coff(M2)
 #hopefully these beta's are right!
+
+# Stargazer Tables
+# Kval table
+stargazer(M2, M3, 
+          type="html", 
+          dep.var.labels = c("Choice"), 
+          covariate.labels = c("Age", "Delay in Days", "Discount Rate", "Age x Delay in Days", "Age x Discount Rate", "Delay in Days x Discount Rate", "Age x Delay in Days x Discount Rate"
+          ), ci=TRUE, ci.level = 0.95, summary = FALSE)
