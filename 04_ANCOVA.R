@@ -3,9 +3,11 @@
 
 # load required packages
 library(here)
-library(plyr)
 library(tidyverse)
+library(plyr)
 library(ez)
+library(broom)
+library(multcomp)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -41,7 +43,7 @@ d0$Age <- scale(d0$Age, center = TRUE, scale=TRUE)
 # choice 1 = SS, choice 2 = LL
 
 # 4 (delay_unit) x Age Within-Subjects ANCOVA
-m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age))
+m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age), return_aov = TRUE)
 saveRDS(m1, here::here('output', 'model1.RDS'))
 
 d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
@@ -76,4 +78,10 @@ weeks_t <- t.test(d2$weeks, d3$weeks)
 months_t <- t.test(d2$months, d3$months)
 years_t <- t.test(d2$years, d3$years)
 
+# Post-hoc Tests
+d4 <- d0[which(d0$agegrp == 'Younger'),]
+d5 <- d0[which(d0$agegrp == 'Older'),]
+youngdelay <- pairwise.t.test(d4$choice, d4$delay_unit, paired = F, p.adjust.method = "bonferroni")
+olderdelay <- pairwise.t.test(d5$choice, d5$delay_unit, paired = F, p.adjust.method = "bonferroni")
 
+bothdelay <- pairwise.t.test(d0$choice, interaction(d0$delay_unit, d0$agegrp), paired = T, p.adjust.method = "bonferroni")
