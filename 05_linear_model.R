@@ -9,7 +9,7 @@ library(stats)
 #install.packages("reghelper")
 library("reghelper")
 library("stargazer")
-
+library('broom')
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
@@ -67,19 +67,41 @@ summary(M2)
 
 # Generate post-hoc test variables.
 
-LogisticPseudoR2s(M2)
-d1$predicted.probabilites<-fitted(M2)
-d1$standardized.residuals<-rstandard(M2)
-d1$studentized.residuals<-rstudent(M2)
-d1$dfbeta<-dfbeta(M2)
-d1$dffit<-dffits(M2)
-d1$leverage<-hatvalues(M2)
+probabilities <- predict(M2, type = "response")
+predicted.classes <- ifelse(probabilities > 0.5, "Positive", "Negative")
+d1$logdnd <- log(d1$delay_n_days)
 
 # Test for linearity
-d1$logDelay_in_days <- log(d1$delay_n_days)*d1$delay_n_days
-d1$logAge <- log(d1$Age)*d1$Age
-M2LinearTest <- glm(d1$choice~d1$Age * d1$delay_n_days + d1$logDelay_in_days * d1$logAge, family = binomial(link = "logit"), data = d1 )
-summary(M2LinearTest)
+# Collect variables and graph for linear logit relationship
+PHT <- d1 %>%
+  dplyr::select(c('choice', 'Age', 'logdnd')) 
+predictors <- colnames(d1)
+# Bind the logit and tidying the data for plot
+PHT <- PHT %>%
+  mutate(logit = log(probabilities/(1-probabilities))) %>%
+  gather(key = "predictors", value = "predictor.value", -logit)
+
+ggplot(PHT, aes(logit, predictor.value))+
+  geom_point(size = 0.5, alpha = 0.5) +
+  geom_smooth(method = "loess") + 
+  theme_bw() + 
+  facet_wrap(~predictors, scales = "free_y")
+
+d1$LAge <- log(d1$Age)*d1$Age
+d1$LDelay <- log(d1$delay_n_days)*d1$delay_n_days
+L.Test <- glm(choice~Age + delay_n_days + LDelay + LAge, data = d1, family = binomial())
+summary(L.Test)
+
+# Influential values model
+
+plot(M2, which = 4, id.n = 3)
+model.data <- augment(M2) %>% 
+  dplyr::mutate(index = 1:n())
+model.data %>% top_n(3, .cooksd)
+
+ggplot(model.data, aes(index, .std.resid)) + 
+  geom_point(aes(color = d1$delay_n_days), alpha = .5) +
+  theme_bw()
 
 
 # Discount rate added regression model
