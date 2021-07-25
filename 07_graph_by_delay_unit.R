@@ -84,7 +84,7 @@ graph_delay_unit_age <- ggplot(d3, aes(delay_unit, choice, fill = agegrp)) +
 graph_delay_unit_age
 
 # Raincloud graphs
-
+d2$delay_unit <- ordered(d2$delay_unit, levels = c("days", "weeks", "months", "years"))
 ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) + 
   ggdist::stat_halfeye(
     adjust = .5,
