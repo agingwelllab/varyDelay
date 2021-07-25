@@ -6,8 +6,7 @@ library(here)
 library(tidyverse)
 library(plyr)
 library(ez)
-library(broom)
-library(multcomp)
+library(knitr)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -78,10 +77,46 @@ weeks_t <- t.test(d2$weeks, d3$weeks)
 months_t <- t.test(d2$months, d3$months)
 years_t <- t.test(d2$years, d3$years)
 
-# Post-hoc Tests
+# Post-hoc tests for parametric conditions
+
 d4 <- d0[which(d0$agegrp == 'Younger'),]
 d5 <- d0[which(d0$agegrp == 'Older'),]
-youngdelay <- pairwise.t.test(d4$choice, d4$delay_unit, paired = F, p.adjust.method = "bonferroni")
-olderdelay <- pairwise.t.test(d5$choice, d5$delay_unit, paired = F, p.adjust.method = "bonferroni")
-
+youngdelay <- pairwise.t.test(d4$choice, d4$delay_unit, paired = T, p.adjust.method = "bonferroni")
+olderdelay <- pairwise.t.test(d5$choice, d5$delay_unit, paired = T, p.adjust.method = "bonferroni")
 bothdelay <- pairwise.t.test(d0$choice, interaction(d0$delay_unit, d0$agegrp), paired = T, p.adjust.method = "bonferroni")
+
+TukeyYoung <- TukeyHSD(aov(choice~delay_unit, data = d4))
+TukeyOlder <- TukeyHSD(aov(choice~delay_unit, data = d5))
+row.names(TukeyOlder$delay_unit) <- c('Days and Months', 'Days and Weeks', 'Days and Years', 'Weeks and Months', 'Years and Months', 'Years and Weeks')
+row.names(TukeyYoung$delay_unit) <- c('Days and Months', 'Days and Weeks', 'Days and Years', 'Weeks and Months', 'Years and Months', 'Years and Weeks')
+
+# Reorder data for tables
+d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
+d1$delay_unit <- ordered(d1$delay_unit, c("days", "weeks", "months", "years"))
+d1$delay_unit <- ordered(d1$delay_unit, levels = c("days", "weeks", "months", "years"),
+                         labels = c("Days", "Weeks", "Months", "Years"))
+d1 <- d1[order(d1$delay_unit, d1$agegrp),]
+d1$agegrp <- factor(d1$agegrp,
+                    levels = c("Older","Younger"),
+                    labels = c("Older", "Younger")
+)
+
+#Table of choice with standard errors
+
+knitr::kable(d1[, c(1:2, 4:7)], 
+             col.names = c('Age Group', "Delay Unit", "SS Choice", "Std. Deviation", "Std. Error", "95% Ci"),
+             "html",
+             digits = 4)
+
+# Table of post-hoc test results
+
+knitr::kable(list(TukeyYoung$delay_unit, TukeyOlder$delay_unit), 
+             col.names = c('Difference in Means', 'Lower Bound', 'Upper Bound', 'Adjusted P'),
+             digits = 4,
+             caption = "Difference in means for interaction of delay unit and age group on proportion of smaller, sooner choices",
+             "html")
+
+
+
+
+
