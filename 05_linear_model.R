@@ -146,5 +146,6 @@ M2_stdz_coff <- stdz.coff(M2)
 stargazer(M2, M3, 
           type="html", 
           dep.var.labels = c("Choice"), 
+          star.cutoffs = c(.05, .01, .001),
           covariate.labels = c("Age", "Delay in Days", "Discount Rate", "Age x Delay in Days", "Age x Discount Rate", "Delay in Days x Discount Rate", "Age x Delay in Days x Discount Rate"
           ), ci=TRUE, ci.level = 0.95, summary = FALSE)
