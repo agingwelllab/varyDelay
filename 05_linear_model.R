@@ -125,9 +125,17 @@ ggplot(model.data, aes(index, .std.resid)) +
 M3 <- glm(d1$choice ~ d1$Age * d1$logdnd * d1$kval, family = binomial(link = 'logit'), data = d1)
 summary(M3)
 
+#find standardzied coefficients (beta)- just kidding.
+#standardized_betas <- beta(M2)
 
-#find standardzied coefficients (beta)- now this works!
-standardized_betas <- beta(M2)
+
+stdz.coff <- function (regmodel)
+{ b <- summary(regmodel)$coef[-1,1]
+sx <- sapply(regmodel$model[-1], sd)
+beta <-(3^(1/2))/pi * sx * b
+return(beta)
+}
+stdz.coff(M2)
 
 # Stargazer Tables
 # Kval table
