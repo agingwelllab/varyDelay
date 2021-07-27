@@ -71,6 +71,10 @@ older$tval
 older$`p values`           
 saveRDS(older, here::here('output', 'olderttest.RDS'))
 
+#overall means and comparison
+d6 <- colMeans(d1[3:6])
+all <- pairedttable(d1[c(1,3:6)], colnames(d1[3:6]))
+
 # between-subs t-tests
 days_t <- t.test(d2$days, d3$days)
 weeks_t <- t.test(d2$weeks, d3$weeks)

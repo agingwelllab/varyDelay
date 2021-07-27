@@ -104,7 +104,7 @@ ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) +
   ylab('Proportion of Smaller Sooner Choices') + xlab('Delay Unit') 
 
 # Stacked Graph
-ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) + 
+ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5)) + 
   ggdist::stat_halfeye(
     adjust = .5,
     width = .6, 

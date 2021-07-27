@@ -6,10 +6,10 @@ library(here)
 library(tidyverse)
 library(plyr)
 library(stats)
-#install.packages("reghelper")
-library("reghelper")
-library("stargazer")
-library('broom')
+library(reghelper)
+library(stargazer)
+library(broom)
+
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
@@ -61,15 +61,27 @@ d1$choice <- as.numeric(d1$choice)
 # By Age
 d1$agegrp <- ifelse(d1$Age > median(d1$Age), 'Older', 'Younger')
 
+# transform delay_n_days variable
+hist(d1$delay_n_days)
+
+d1$sqrtdd <- sqrt(d1$delay_n_days)
+hist(d1$sqrtdd)
+
+d1$logdnd <- log(d1$delay_n_days)
+hist(d1$logdnd)
+#logdnd wins!
+
 # Simple Logistic Regression
-M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
-summary(M2)
+#M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
+#summary(M2)
+
+M2 <- glm(d1$choice ~ d1$Age * d1$logdnd, family = binomial(link = 'logit'), data = d1)
+summary(M2) 
 
 # Generate post-hoc test variables.
 
 probabilities <- predict(M2, type = "response")
 predicted.classes <- ifelse(probabilities > 0.5, "Positive", "Negative")
-d1$logdnd <- log(d1$delay_n_days)
 
 # Test for linearity
 # Collect variables and graph for linear logit relationship
@@ -88,8 +100,10 @@ ggplot(PHT, aes(logit, predictor.value))+
   facet_wrap(~predictors, scales = "free_y")
 
 d1$LAge <- log(d1$Age)*d1$Age
-d1$LDelay <- log(d1$delay_n_days)*d1$delay_n_days
-L.Test <- glm(choice~Age + delay_n_days + LDelay + LAge, data = d1, family = binomial())
+#d1$LDelay <- log(d1$delay_n_days)*d1$delay_n_days
+d1$LDelay <- log(d1$logdnd)*d1$logdnd
+#L.Test <- glm(choice~Age + delay_n_days + LDelay + LAge, data = d1, family = binomial())
+L.Test <- glm(choice~Age + logdnd + LDelay + LAge, data = d1, family = binomial())
 summary(L.Test)
 
 # Influential values model
@@ -105,41 +119,15 @@ ggplot(model.data, aes(index, .std.resid)) +
 
 
 # Discount rate added regression model
-M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
+#M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
+#summary(M3)
+
+M3 <- glm(d1$choice ~ d1$Age * d1$logdnd * d1$kval, family = binomial(link = 'logit'), data = d1)
 summary(M3)
 
 
-#find standardzied coefficients (beta)- this didnt work
+#find standardzied coefficients (beta)- now this works!
 standardized_betas <- beta(M2)
-
-# standardize (mean center/sd) all variables in model
-d1 <- d1 %>% mutate(age_standard = ((Age-mean(Age))/sd(Age)))
-d1 <- d1 %>% mutate(delay_n_days_standard = ((delay_n_days-mean(delay_n_days))/sd(delay_n_days)))
-d1 <- d1 %>% mutate(age_scale= scale(Age, center = TRUE, scale = TRUE))
-
-#double check standardization
-#hist(d1$Age)
-#hist(d1$age_standard)
-#hist(d1$delay_n_days)
-#hist(d1$delay_n_days_standard)
-#hist(d1$Age, breaks = 10)
-#hist(d1$age_standard, breaks = 10)
-
-#Re-run logistic regression model w/ standardized variables to get standardized betas
-M2_standard <- glm(d1$choice ~ d1$age_standard * d1$delay_n_days_standard, family = binomial(link = 'logit'), data = d1)
-summary(M2_standard)
-# we don't think these are right, because the M2 and M2_standard model results are different
-
-# Alternatate Standardized Coefficients via function
-stdz.coff <- function (regmodel)
-{ b <- summary(regmodel)$coef[-1,1]
-sx <- sapply(regmodel$model[-1], sd)
-beta <-(3^(1/2))/pi * sx * b
-return(beta)
-}
-
-M2_stdz_coff <- stdz.coff(M2)
-#hopefully these beta's are right!
 
 # Stargazer Tables
 # Kval table
