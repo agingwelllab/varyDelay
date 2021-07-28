@@ -7,8 +7,8 @@ library(tidyverse)
 library(plyr)
 library(stats)
 library(reghelper)
-library(stargazer)
 library(broom)
+library(sjPlot)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -137,11 +137,13 @@ return(beta)
 }
 stdz.coff(M2)
 
-# Stargazer Tables
-# Kval table
-stargazer(M2, M3, 
-          type="html", 
-          dep.var.labels = c("Choice"), 
-          star.cutoffs = c(.05, .01, .001),
-          covariate.labels = c("Age", "Delay in Days", "Discount Rate", "Age x Delay in Days", "Age x Discount Rate", "Delay in Days x Discount Rate", "Age x Delay in Days x Discount Rate"
-          ), ci=TRUE, ci.level = 0.95, summary = FALSE)
+# sjPlot Tables
+
+tab_model(M2, M3, 
+          show.std = TRUE,
+          show.est = FALSE,
+          show.p = TRUE,
+          collapse.ci = TRUE,
+          dv.labels = c("Original Model 2", "Discount Model"),
+          pred.labels = c("Intercept", "Age", "Log Delay in Day", "Age * Log Delay in Days", "Discount Rate", "Age * Discount Rate", "Log Delay in Days * Discount Rate", "Age * Log Delay in Days * Discount Rate")
+          )
