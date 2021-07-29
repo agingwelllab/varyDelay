@@ -72,10 +72,10 @@ income
 # histogram of age
 # ====================
 ## calculate number of bins needed
-bins = seq(min(dt$Age, na.rm=TRUE), max(dt$Age, na.rm=TRUE), 1)
+#bins = seq(min(dt$Age, na.rm=TRUE), max(dt$Age, na.rm=TRUE), 10)
 
 # #build histogram
-age <- hist(dt$Age, breaks= bins, col= "grey")
-age <- ggplot(demo, aes(Age)) + geom_histogram(stat='count') + theme_minimal() 
-age
-
+#age <- hist(dt$Age, breaks= length(bins), col= "grey")
+#age <- ggplot(demo, aes(Age)) + geom_histogram(stat='count') + theme_minimal() 
+#age
+hist(dt$Age)
