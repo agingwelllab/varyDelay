@@ -39,6 +39,9 @@ d0$delay_unit <- factor(d0$delay_unit, levels = c("days", "weeks", "months", "ye
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
 
+# Add Age group
+d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
+
 # Figure 1 ####
 fig1 <- ggplot(d0, aes(Age, choice, fill = delay_unit, colour = delay_unit)) + 
   geom_smooth(method = lm) + theme_bw() + ylab('Proportion SS Choice') + xlab('Age') + 
