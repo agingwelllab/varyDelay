@@ -8,6 +8,7 @@ library(plyr)
 library(ez)
 library(sjPlot)
 library(knitr)
+library(lme4)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -96,8 +97,8 @@ PHM1 <- pairwise.t.test(d0$choice, d0$delay_unit, paired = T, p.adjust.method = 
 M1PHT <-as.table(PHM1$p.value)
 
 knitr::kable(list(M1PHT))
-write.csv(M1PHT, here::here("figs", Post_Hoc_Test_M1.csv"))
-
+write.csv(M1PHT, here::here("figs", "Post_Hoc_Test_M1.csv"))
+dev.off()
 
 # Mixed effect model
 
