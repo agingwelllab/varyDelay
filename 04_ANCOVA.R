@@ -6,6 +6,7 @@ library(here)
 library(tidyverse)
 library(plyr)
 library(ez)
+library(sjPlot)
 library(knitr)
 
 # load source functions
@@ -42,7 +43,7 @@ d0$Age <- scale(d0$Age, center = TRUE, scale=TRUE)
 # choice 1 = SS, choice 2 = LL
 
 # 4 (delay_unit) x Age Within-Subjects ANCOVA
-m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age), return_aov = TRUE)
+m1 <- ezANOVA(data = d0, dv = .(choice), wid = .(ID), within = .(delay_unit), between = .(Age), return_aov = TRUE, detailed = TRUE)
 saveRDS(m1, here::here('output', 'model1.RDS'))
 
 d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
@@ -81,46 +82,26 @@ weeks_t <- t.test(d2$weeks, d3$weeks)
 months_t <- t.test(d2$months, d3$months)
 years_t <- t.test(d2$years, d3$years)
 
-# Post-hoc tests for parametric conditions
-
-d4 <- d0[which(d0$agegrp == 'Younger'),]
-d5 <- d0[which(d0$agegrp == 'Older'),]
-youngdelay <- pairwise.t.test(d4$choice, d4$delay_unit, paired = T, p.adjust.method = "bonferroni")
-olderdelay <- pairwise.t.test(d5$choice, d5$delay_unit, paired = T, p.adjust.method = "bonferroni")
-bothdelay <- pairwise.t.test(d0$choice, interaction(d0$delay_unit, d0$agegrp), paired = T, p.adjust.method = "bonferroni")
-
-TukeyYoung <- TukeyHSD(aov(choice~delay_unit, data = d4))
-TukeyOlder <- TukeyHSD(aov(choice~delay_unit, data = d5))
-row.names(TukeyOlder$delay_unit) <- c('Days and Months', 'Days and Weeks', 'Days and Years', 'Weeks and Months', 'Years and Months', 'Years and Weeks')
-row.names(TukeyYoung$delay_unit) <- c('Days and Months', 'Days and Weeks', 'Days and Years', 'Weeks and Months', 'Years and Months', 'Years and Weeks')
-
 # Reorder data for tables
-d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
-d1$delay_unit <- ordered(d1$delay_unit, c("days", "weeks", "months", "years"))
-d1$delay_unit <- ordered(d1$delay_unit, levels = c("days", "weeks", "months", "years"),
-                         labels = c("Days", "Weeks", "Months", "Years"))
-d1 <- d1[order(d1$delay_unit, d1$agegrp),]
-d1$agegrp <- factor(d1$agegrp,
-                    levels = c("Older","Younger"),
-                    labels = c("Older", "Younger")
-)
+d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
 
-#Table of choice with standard errors
+# sjPlot table for Fig. 1 (Saved as CSV)
 
-knitr::kable(d1[, c(1:2, 4:7)], 
-             col.names = c('Age Group', "Delay Unit", "SS Choice", "Std. Deviation", "Std. Error", "95% Ci"),
-             "html",
-             digits = 4)
+tab_df(d1[, c(1, 3:4)],
+        col.header = c("Delay Unit", "Choice", "Std. Deviation"),
+        title = "Mean and standard deviation of proportion of smaller, sooner options selected by delay length")       
 
-# Table of post-hoc test results
+# Post-hoc test for M1
+PHM1 <- pairwise.t.test(d0$choice, d0$delay_unit, paired = T, p.adjust.method = "holm")
+M1PHT <-as.table(PHM1$p.value)
 
-knitr::kable(list(TukeyYoung$delay_unit, TukeyOlder$delay_unit), 
-             col.names = c('Difference in Means', 'Lower Bound', 'Upper Bound', 'Adjusted P'),
-             digits = 4,
-             caption = "Difference in means for interaction of delay unit and age group on proportion of smaller, sooner choices",
-             "html")
+knitr::kable(list(M1PHT))
+write.csv(M1PHT, here::here("Post_Hoc_Test_M1.csv"))
 
 
+# Mixed effect model
 
+MM1 <- lmer(choice~Age + (1| delay_unit) +(1| kval), data = d0)
+summary(MM1)
 
 
