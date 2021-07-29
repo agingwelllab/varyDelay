@@ -104,7 +104,7 @@ ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp)) +
   ylab('Proportion of Smaller Sooner Choices') + xlab('Delay Unit') 
 
 # Stacked Graph
-stacked <- ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5)) + 
+ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5)) + 
   ggdist::stat_halfeye(
     adjust = .5,
     width = .6, 
@@ -121,6 +121,22 @@ stacked <- ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5
   scale_fill_hue(name = "Age Group") + scale_color_grey(name = "Age Group") + 
   ylab('Proportion of Smaller Sooner Choices') + xlab('Delay Unit') 
 
+# main effect of delay unit
+
+d4 <- summarySE(data=d0, measurevar="choice", groupvars=c("delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
+
+d4$delay_unit <- ordered(d4$delay_unit, levels = c("days", "weeks", "months", "years"))
+
+graph_delay_unit <- ggplot(d4, aes(delay_unit, choice, fill = delay_unit)) + 
+  
+  geom_bar(stat='identity', position=position_dodge()) +
+  
+  geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
+  
+  theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay') + theme(legend.position = "None")
+
+graph_delay_unit
+
 #save graphs
 png(here::here('figs', 'delay_unit_x_age_grp.png'), width = 600, height = 600)
 graph_delay_unit_age
@@ -128,4 +144,8 @@ dev.off()
 
 png(here::here('figs', 'stacked_distribution_propSS_x_age_grp.png'), width = 600, height = 600)
 stacked
+dev.off()
+
+png(here::here('figs', 'main_effect_of_delay_unit.png'), width = 600, height = 600)
+graph_delay_unit_age
 dev.off()
