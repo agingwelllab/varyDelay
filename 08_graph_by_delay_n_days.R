@@ -40,6 +40,7 @@ d1$delay_unit <- ifelse(str_detect(d1$delay, 'd'), 'days',
                         ifelse(str_detect(d1$delay, 'w'), 'weeks', 
                                ifelse(str_detect(d1$delay, 'm'), 'months',
                                       ifelse(str_detect(d1$delay, 'y'), 'years', 0))))
+d1$delay_unit <- factor(d1$delay_unit, levels = c("days", "weeks", "months", "years"))
 
 # isolate the number from delay variable 
 d1$delay <- str_remove_all(d1$delay, "[Xdwmy]")
@@ -62,8 +63,7 @@ d1$choice <- as.numeric(d1$choice)
 # make delay_n_days factor
 d1$delay_n_days <- factor(d1$delay_n_days)
 
-
-## NEW graph choice by age by delay ####
+## NEW Fig 2 graph choice by age by delay ####
 choice_by_age_by_delay_n_days <- ggplot(d1, aes(Age, choice, color = delay_n_days, fill = delay_n_days)) + 
   geom_smooth(method = 'lm') + theme_minimal() + 
   theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
@@ -75,19 +75,6 @@ choice_by_age_by_delay_n_days <- ggplot(d1, aes(Age, choice, color = delay_n_day
   ylab('Proportion of SS Choices') + facet_wrap(delay_unit ~.)
 
 choice_by_age_by_delay_n_days
-
-# ## OLD graph choice by age by delay ####
-# choice_by_age_by_delay_n_days <- ggplot(d1, aes(Age, choice, color = delay_n_days, fill = delay_n_days)) + 
-#   geom_smooth(method = 'lm', se = FALSE) + theme_minimal() + 
-#   theme_minimal() + theme(plot.title = element_text(face="bold", size = 24),
-#                           axis.title.x = element_text(size = 24), axis.title.y = element_text(size = 24),
-#                           axis.text.x = element_text(size = 20), axis.text.y = element_text(size = 20),
-#                           strip.text.x = element_text(size=20),
-#                           legend.text = element_text(size = 16), legend.title = element_text(size = 20), legend.position = 'top') + 
-#   scale_color_discrete(name = 'Delay in Days') + scale_fill_discrete(name = 'Delay in Days') + 
-#   ylab('Proportion of SS Choices')
-# 
-# choice_by_age_by_delay_n_days
 
 #save graph
 png(here::here('figs', 'delay_in_days_x_age_grp.png'), width = 600, height = 600)

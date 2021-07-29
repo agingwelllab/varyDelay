@@ -6,8 +6,6 @@ library(here)
 library(tidyverse)
 library(plyr)
 library(ggplot2)
-library(ggdist)
-library(EnvStats)
 
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
@@ -35,13 +33,11 @@ d0$delay_unit <- ifelse(str_detect(d0$delay, 'd'), 'days',
                         ifelse(str_detect(d0$delay, 'w'), 'weeks', 
                                ifelse(str_detect(d0$delay, 'm'), 'months',
                                       ifelse(str_detect(d0$delay, 'y'), 'years', 0))))
+d0$delay_unit <- factor(d0$delay_unit, levels = c("days", "weeks", "months", "years"))
 
 # recode choice into LL (0) or SS (1)
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
 d0$choice <- as.numeric(d0$choice)
-
-# Add Age group
-d0$agegrp <- ifelse(d0$Age > median(d0$Age), 'Older', 'Younger')
 
 # Figure 1 ####
 fig1 <- ggplot(d0, aes(Age, choice, fill = delay_unit, colour = delay_unit)) + 
@@ -59,9 +55,6 @@ dev.off()
 
 # Figure S1 - graph of averages across delay unit and kvalue (Now breaks down by age group also) ####
 d1 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp", "delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
-
-d1$delay_unit <- factor(d1$delay_unit, levels = c("days", "weeks", "months", "years"))
-
 graph_delay_unit_kval <- ggplot(d1, aes(delay_unit, choice, fill = kval)) + 
   geom_bar(stat='identity', position=position_dodge()) +
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
@@ -73,7 +66,8 @@ graph_delay_unit_kval
 
 
 # Figure S2 - Stacked Graph of distributions ####
-ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5)) + 
+d2 <- summarySE(data=d0, measurevar="choice", groupvars=c("agegrp","delay_unit","kval"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
+stacked <- ggplot(d2, aes(x = delay_unit, y = choice, fill = agegrp, alpha = 0.5)) + 
   ggdist::stat_halfeye(
     adjust = .5,
     width = .6, 
@@ -95,19 +89,11 @@ stacked
 dev.off()
 
 # main effect of delay unit ####
-
 d4 <- summarySE(data=d0, measurevar="choice", groupvars=c("delay_unit"), na.rm=FALSE, conf.interval=.95, .drop=TRUE)
-
-d4$delay_unit <- ordered(d4$delay_unit, levels = c("days", "weeks", "months", "years"))
-
 graph_delay_unit <- ggplot(d4, aes(delay_unit, choice, fill = delay_unit)) + 
-  
   geom_bar(stat='identity', position=position_dodge()) +
-  
   geom_errorbar(aes(ymin=choice-se, ymax=choice+se), width=.2, position=position_dodge(.9)) + 
-  
   theme_minimal() + ylab('Proportion SS Choice') + xlab('Unit of Delay') + theme(legend.position = "None")
-
 graph_delay_unit
 
 png(here::here('figs', 'main_effect_of_delay_unit.png'), width = 600, height = 600)
