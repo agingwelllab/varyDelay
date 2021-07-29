@@ -9,7 +9,7 @@ library(stats)
 library(reghelper)
 library(broom)
 library(sjPlot)
-
+library(rmcorr)
 # load source functions
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
@@ -70,18 +70,18 @@ hist(d1$sqrtdd)
 d1$logdnd <- log(d1$delay_n_days)
 hist(d1$logdnd)
 #logdnd wins!
+# Create factor version of logdnd (For use in correlation matrix)
+d1$logdndl <- factor(d1$logdnd,
+                     levels = c(0, 1.38629436111989, 1.94591014905531, 2.63905732961526, 3.40119738166216, 5.19295685089021, 5.89989735358249, 7.50933526601659, 8.20248244657654),
+                     labels = c("1", "4", "7", "14", "30", "180", "365", "1825", "3650"))
 
 # Simple Logistic Regression
 #M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
 #summary(M2)
 
-M2 <- glm(d1$choice ~ d1$Age * d1$logdnd, family = binomial(link = 'logit'), data = d1)
-summary(M2) 
-
-# Generate post-hoc test variables.
-
-probabilities <- predict(M2, type = "response")
-predicted.classes <- ifelse(probabilities > 0.5, "Positive", "Negative")
+M2 <- glm(choice ~ Age * logdnd, family = binomial(link = 'logit'), data = d1)
+SM2 <- summary.glm(M2, correlation = TRUE, signif.stars = TRUE) 
+print(SM2)
 
 # Test for linearity
 # Collect variables and graph for linear logit relationship
@@ -122,7 +122,7 @@ ggplot(model.data, aes(index, .std.resid)) +
 #M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
 #summary(M3)
 
-M3 <- glm(d1$choice ~ d1$Age * d1$logdnd * d1$kval, family = binomial(link = 'logit'), data = d1)
+M3 <- glm(choice ~ Age * logdnd * kval, family = binomial(link = 'logit'), data = d1)
 summary(M3)
 
 #find standardzied coefficients (beta)- just kidding.
@@ -137,7 +137,24 @@ return(beta)
 }
 stdz.coff(M2)
 
-# sjPlot Tables
+
+#Build Correlation Matrix Table
+
+M2C <- glm(choice ~ Age * logdndl, family = binomial(link = 'logit'), data = d1)
+SM2C <- summary.glm(M2C, 
+                    correlation = TRUE) 
+print(SM2C$correlation[c(2, 11:18), c(2, 11:18)])
+
+# Table of correlations between proportion of smaller, sooner options chosne and age, by length of delay in log days (Table 3)
+
+tab_corr(SM2C$correlation[c(2, 11:18), c(2, 11:18)], 
+         triangle = "l",
+         show.p = TRUE, p.numeric = TRUE,
+         title = "Correlation of age and proportion of smaller sooner options, by log of delay in days",
+         var.labels = c("Log 1", " Log 4", "Log 7", "Log 14", "Log 30", "Log 180", "Log 365", "Log 1825", "Log 3650")
+         )
+
+# sjPlot Tables (Table 4)
 
 tab_model(M2, M3, 
           show.std = TRUE,
@@ -146,4 +163,5 @@ tab_model(M2, M3,
           collapse.ci = TRUE,
           dv.labels = c("Original Model 2", "Discount Model"),
           pred.labels = c("Intercept", "Age", "Log Delay in Day", "Age * Log Delay in Days", "Discount Rate", "Age * Discount Rate", "Log Delay in Days * Discount Rate", "Age * Log Delay in Days * Discount Rate")
-          )
+)
+
