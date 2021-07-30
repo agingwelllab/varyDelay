@@ -72,11 +72,6 @@ d1$logdnd <- log(d1$delay_n_days)
 hist(d1$logdnd)
 #logdnd wins!
 
-# Create factor version of logdnd (For use in correlation matrix)
-d1$logdndl <- factor(d1$logdnd,
-                     levels = c(0, 1.38629436111989, 1.94591014905531, 2.63905732961526, 3.40119738166216, 5.19295685089021, 5.89989735358249, 7.50933526601659, 8.20248244657654),
-                     labels = c("1", "4", "7", "14", "30", "180", "365", "1825", "3650"))
-
 
 # Simple Logistic Regression ####
 #M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
@@ -167,6 +162,11 @@ summary(M3)
 
 
 # #Build Correlation Matrix Table - I don't think this code does what you think it does....
+
+# # Create factor version of logdnd (For use in correlation matrix)
+# d1$logdndl <- factor(d1$logdnd,
+#                      levels = c(0, 1.38629436111989, 1.94591014905531, 2.63905732961526, 3.40119738166216, 5.19295685089021, 5.89989735358249, 7.50933526601659, 8.20248244657654),
+#                      labels = c("1", "4", "7", "14", "30", "180", "365", "1825", "3650"))
 # 
 # M2C <- glm(choice ~ Age * logdndl, family = binomial(link = 'logit'), data = d1)
 # SM2C <- summary.glm(M2C, 

@@ -17,7 +17,8 @@ dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 
 # score FTP
 ftp <- calculate_ftp(dt)
-ftp <- ftp %>% rename(ftp = FTP)
+ftp$ftp <- ftp$FTP; ftp$FTP <- NULL
+#ftp <- ftp %>% rename(ftp = FTP)
 dt <- merge(dt, ftp)
 rm(ftp)
 
