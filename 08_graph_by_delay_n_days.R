@@ -7,6 +7,7 @@ library(plyr)
 library(tidyverse)
 
 # load source functions
+source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
 
@@ -24,37 +25,9 @@ gd <- gd[complete.cases(gd),]
 
 d1 <- gather(gd, "gambletype", "choice", X1d_1:X10y_005) # make gambletype column
 
-# break apart gamble type into delay and k val columns
-d1$delay <- as.factor(t(as.data.frame(strsplit(d1$gambletype, '_')))[,1]) #create delay column
-d1$kval <- as.factor(t(as.data.frame(strsplit(d1$gambletype, '_')))[,2]) # create k val column
-
-# convert the letter in delay variable to # of days (d for day = 1, w for week = 7, m for month = 30, 
-# y for year = 365)
-d1$delay_n_days <- ifelse(str_detect(d1$delay, 'd'), '1', 
-                          ifelse(str_detect(d1$delay, 'w'), '7', 
-                                 ifelse(str_detect(d1$delay, 'm'), '30',
-                                        ifelse(str_detect(d1$delay, 'y'), '365', 0))))
-
-# also make delay unit variable for facets
-d1$delay_unit <- ifelse(str_detect(d1$delay, 'd'), 'days', 
-                        ifelse(str_detect(d1$delay, 'w'), 'weeks', 
-                               ifelse(str_detect(d1$delay, 'm'), 'months',
-                                      ifelse(str_detect(d1$delay, 'y'), 'years', 0))))
-d1$delay_unit <- factor(d1$delay_unit, levels = c("days", "weeks", "months", "years"))
-
-# isolate the number from delay variable 
-d1$delay <- str_remove_all(d1$delay, "[Xdwmy]")
-#d1$gambletype <- NULL # remove gamble type variable
-
-d1$delay <- as.numeric(d1$delay)
-d1$delay_n_days <- as.numeric(d1$delay_n_days)
-d1$delay_n_days <- d1$delay*d1$delay_n_days
-d1$delay_n_days <- as.numeric(str_replace(d1$delay_n_days, "28", "30")) 
-d1$delay_n_days <- as.numeric(str_replace(d1$delay_n_days, "360", "365"))
-
-# convert k vals to numeric
-d1$kval <- paste0('.', d1$kval) # more concise
-d1$kval <- as.numeric(as.character(d1$kval))
+d1 <- create_delay_unit(d1)
+d1 <- create_delay_n_days(d1)
+d1 <- create_k_value(d1)
 
 # recode choice into LL (0) or SS (1)
 d1$choice <- ifelse(d1$choice == 2, 0, 1)
