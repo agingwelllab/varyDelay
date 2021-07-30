@@ -14,6 +14,9 @@ source(here::here('scr', 'isolate_data.R'))
 # load data
 dt <- read.csv(here::here('data', 'varydelay_data.csv'))
 
+# load model 2
+M2 <- readRDS(here::here('output', 'model2.RDS'))
+
 # isolate gamble data ####
 gd <- isolate_data(dt, grep('ID', colnames(dt))[1], c(grep('Age', colnames(dt)), 
                                                       grep('X1d_1', colnames(dt)):grep('X10y_005', colnames(dt))))
@@ -42,6 +45,7 @@ hist(d1$logdnd)
 PHT <- d1 %>%
   dplyr::select(c('choice', 'Age', 'logdnd')) 
 predictors <- colnames(d1)
+
 # Bind the logit and tidying the data for plot
 PHT <- PHT %>%
   mutate(logit = log(probabilities/(1-probabilities))) %>%
