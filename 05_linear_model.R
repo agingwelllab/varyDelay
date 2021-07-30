@@ -46,6 +46,7 @@ d1$logdnd <- log(d1$delay_n_days)
 
 # Simple Logistic Regression ####
 M2 <- glm(choice ~ Age * logdnd, family = binomial(link = 'logit'), data = d1)
+saveRDS(M2, here::here('output', 'model2.RDS'))
 SM2 <- summary.glm(M2, correlation = TRUE, signif.stars = TRUE) 
 print(SM2)
 
@@ -81,42 +82,6 @@ d2 <- d2[c(1:3, 10)]
 
 write.csv(d2, here::here('figs', 'means_sd_corr_M2.csv'), row.names = FALSE)
 
-# Assumptions Testing ####
-
-# Test for linearity
-# Collect variables and graph for linear logit relationship
-PHT <- d1 %>%
-  dplyr::select(c('choice', 'Age', 'logdnd')) 
-predictors <- colnames(d1)
-# Bind the logit and tidying the data for plot
-PHT <- PHT %>%
-  mutate(logit = log(probabilities/(1-probabilities))) %>%
-  gather(key = "predictors", value = "predictor.value", -logit)
-
-ggplot(PHT, aes(logit, predictor.value))+
-  geom_point(size = 0.5, alpha = 0.5) +
-  geom_smooth(method = "loess") + 
-  theme_bw() + 
-  facet_wrap(~predictors, scales = "free_y")
-
-d1$LAge <- log(d1$Age)*d1$Age
-#d1$LDelay <- log(d1$delay_n_days)*d1$delay_n_days
-d1$LDelay <- log(d1$logdnd)*d1$logdnd
-#L.Test <- glm(choice~Age + delay_n_days + LDelay + LAge, data = d1, family = binomial())
-L.Test <- glm(choice~Age + logdnd + LDelay + LAge, data = d1, family = binomial())
-summary(L.Test)
-
-# Influential values model
-
-plot(M2, which = 4, id.n = 3)
-model.data <- augment(M2) %>% 
-  dplyr::mutate(index = 1:n())
-model.data %>% top_n(3, .cooksd)
-
-ggplot(model.data, aes(index, .std.resid)) + 
-  geom_point(aes(color = d1$delay_n_days), alpha = .5) +
-  theme_bw()
-
 # Additional regression models ####
 # Discount rate added regression model
 #M3 <- glm(d1$choice ~ d1$Age * d1$delay_n_days * d1$kval, family = binomial(link = 'logit'), data = d1)
@@ -125,8 +90,16 @@ ggplot(model.data, aes(index, .std.resid)) +
 M3 <- glm(choice ~ Age * logdnd * kval, family = binomial(link = 'logit'), data = d1)
 summary(M3)
 
+# sjPlot Tables (Table 4)
 
-
+tab_model(M2, M3, 
+          show.std = TRUE,
+          show.est = FALSE,
+          show.p = TRUE,
+          collapse.ci = TRUE,
+          dv.labels = c("Original Model 2", "Discount Model"),
+          pred.labels = c("Intercept", "Age", "Log Delay in Day", "Age * Log Delay in Days", "Discount Rate", "Age * Discount Rate", "Log Delay in Days * Discount Rate", "Age * Log Delay in Days * Discount Rate")
+)
 
 # #Build Correlation Matrix Table - I don't think this code does what you think it does....
 
@@ -148,15 +121,3 @@ summary(M3)
 #          title = "Correlation of age and proportion of smaller sooner options, by log of delay in days",
 #          var.labels = c("Log 1", " Log 4", "Log 7", "Log 14", "Log 30", "Log 180", "Log 365", "Log 1825", "Log 3650")
 #          )
-
-# sjPlot Tables (Table 4)
-
-tab_model(M2, M3, 
-          show.std = TRUE,
-          show.est = FALSE,
-          show.p = TRUE,
-          collapse.ci = TRUE,
-          dv.labels = c("Original Model 2", "Discount Model"),
-          pred.labels = c("Intercept", "Age", "Log Delay in Day", "Age * Log Delay in Days", "Discount Rate", "Age * Discount Rate", "Log Delay in Days * Discount Rate", "Age * Log Delay in Days * Discount Rate")
-)
-

@@ -7,6 +7,7 @@ library(plyr)
 library(tidyverse)
 
 # load source functions
+source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
 
@@ -31,19 +32,8 @@ d2 <- gather(d2, "gambletype", "choice", X7d_1:X1y_1)
 d2$frame <- ifelse(str_detect(d2$gambletype, 'X1'), 1, 0) 
 
 # break apart gamble type into delay and k val columns
-d2$delay <- as.factor(t(as.data.frame(strsplit(d2$gambletype, '_')))[,1])
-d2$kval <- as.factor(t(as.data.frame(strsplit(d2$gambletype, '_')))[,2])
-
-# convert the letter in delay variable to label
-d2$delay_unit <- ifelse(str_detect(d2$delay, 'd'), 'days', 
-                        ifelse(str_detect(d2$delay, 'w'), 'weeks', 
-                               ifelse(str_detect(d2$delay, 'm'), 'months',
-                                      ifelse(str_detect(d2$delay, 'y'), 'years', 0))))
-
-# convert k vals to numeric
-d2$kval <- paste0('.', d2$kval) # more concise
-d2$kval <- as.numeric(as.character(d2$kval))
-
+d2 <- create_delay_unit(d2)
+d2 <- create_k_value(d2)
 
 # recode choice into LL (0) or SS (1)
 d2$choice <- ifelse(d2$choice == 2, 0, 1)
@@ -60,5 +50,6 @@ contrasts(d2$delay_unit) = my.forward.diff
 
 # Create Models and Test
 M3 <- glm(d2$choice ~ d2$frame + d2$delay_unit + d2$Age, family=binomial(link='logit'), data = d2)
+saveRDS(M3, here::here('output', 'model3.RDS'))
 summary(M3)
 

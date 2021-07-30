@@ -28,15 +28,8 @@ d1 <- gather(gd, "gambletype", "choice", X1d_1:X10y_005) # make gambletype colum
 d1 <- create_delay_n_days(d1)
 d1 <- create_k_value(d1)
 
-# transform delay_n_days variable ####
-hist(d1$delay_n_days)
-
-d1$sqrtdd <- sqrt(d1$delay_n_days)
-hist(d1$sqrtdd)
-
+# transform delay_n_days variable
 d1$logdnd <- log(d1$delay_n_days)
-hist(d1$logdnd)
-#logdnd wins!
 
 # Check assumptions ####
 
@@ -46,7 +39,7 @@ PHT <- d1 %>%
   dplyr::select(c('choice', 'Age', 'logdnd')) 
 predictors <- colnames(d1)
 
-# Bind the logit and tidying the data for plot
+# Bind the logit and tidying the data for plot - something is going wrong here
 PHT <- PHT %>%
   mutate(logit = log(probabilities/(1-probabilities))) %>%
   gather(key = "predictors", value = "predictor.value", -logit)
