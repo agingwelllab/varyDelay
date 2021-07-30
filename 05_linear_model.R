@@ -5,17 +5,13 @@
 library(here)
 library(tidyverse)
 library(plyr)
-library(stats)
-library(reghelper)
-library(broom)
 library(sjPlot)
-library(rmcorr)
 
 # load source functions
 source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
-source(here::here('scr', 'logistic_pseudoR2.R'))
+#source(here::here('scr', 'logistic_pseudoR2.R'))
 
 # set hard-coded variables
 
@@ -46,7 +42,7 @@ d1$logdnd <- log(d1$delay_n_days)
 
 # Simple Logistic Regression ####
 M2 <- glm(choice ~ Age * logdnd, family = binomial(link = 'logit'), data = d1)
-saveRDS(M2, here::here('output', 'model2.RDS'))
+#saveRDS(M2, here::here('output', 'model2.RDS'))
 SM2 <- summary.glm(M2, correlation = TRUE, signif.stars = TRUE) 
 print(SM2)
 
@@ -80,7 +76,7 @@ d2 <- d2 %>% mutate(
 
 d2 <- d2[c(1:3, 10)]
 
-write.csv(d2, here::here('figs', 'means_sd_corr_M2.csv'), row.names = FALSE)
+#write.csv(d2, here::here('figs', 'means_sd_corr_M2.csv'), row.names = FALSE)
 
 # Additional regression models ####
 # Discount rate added regression model
