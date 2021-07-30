@@ -89,3 +89,5 @@ rownames(t2) <- c("N", "Age", "Education", "Income", "Physical Health", "Race", 
 
 # save
 write.csv(t2, here::here('figs', 'demo_table.csv'))
+
+#t.test(demo$Income[which(demo$agegroup == 'Younger')], demo$Income[which(demo$agegroup == 'Older')])
