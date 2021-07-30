@@ -26,9 +26,6 @@ create_delay_n_days <- function(dt) {
   dt$delay_n_days <- dt$number*dt$delay_n_days
   dt$delay_n_days <- as.numeric(str_replace(dt$delay_n_days, "28", "30")) 
   dt$delay_n_days <- as.numeric(str_replace(dt$delay_n_days, "360", "365"))
-  
-  # make delay_n_days factor
-  dt$delay_n_days <- factor(dt$delay_n_days)
   dt$delay <- NULL; dt$number <- NULL
   return(dt)
 }
