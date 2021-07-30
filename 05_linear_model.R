@@ -12,6 +12,7 @@ library(sjPlot)
 library(rmcorr)
 
 # load source functions
+source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
 source(here::here('scr', 'logistic_pseudoR2.R'))
@@ -30,30 +31,8 @@ gd <- gd[complete.cases(gd),]
 
 d1 <- gather(gd, "gambletype", "choice", X1d_1:X10y_005) # make gambletype column
 
-# break apart gamble type into delay and k val columns
-d1$delay <- as.factor(t(as.data.frame(strsplit(d1$gambletype, '_')))[,1]) #create delay column
-d1$kval <- as.factor(t(as.data.frame(strsplit(d1$gambletype, '_')))[,2]) # create k val column
-
-# convert the letter in delay variable to # of days (d for day = 1, w for week = 7, m for month = 30, 
-# y for year = 365)
-d1$delay_n_days <- ifelse(str_detect(d1$delay, 'd'), '1', 
-                          ifelse(str_detect(d1$delay, 'w'), '7', 
-                                 ifelse(str_detect(d1$delay, 'm'), '30',
-                                        ifelse(str_detect(d1$delay, 'y'), '365', 0))))
-
-# isolate the number from delay variable 
-d1$delay <- str_remove_all(d1$delay, "[Xdwmy]")
-#d1$gambletype <- NULL # remove gamble type variable
-
-d1$delay <- as.numeric(d1$delay)
-d1$delay_n_days <- as.numeric(d1$delay_n_days)
-d1$delay_n_days <- d1$delay*d1$delay_n_days
-d1$delay_n_days <- as.numeric(str_replace(d1$delay_n_days, "28", "30")) 
-d1$delay_n_days <- as.numeric(str_replace(d1$delay_n_days, "360", "365"))
-
-# convert k vals to numeric
-d1$kval <- paste0('.', d1$kval) # more concise
-d1$kval <- as.numeric(as.character(d1$kval))
+d1 <- create_delay_n_days(d1)
+d1 <- create_k_value(d1)
 
 # recode choice into LL (1) or SS (0)
 d1$choice <- ifelse(d1$choice == 2, 0, 1)
@@ -63,20 +42,9 @@ d1$choice <- as.numeric(d1$choice)
 d1$agegrp <- ifelse(d1$Age > median(d1$Age), 'Older', 'Younger')
 
 # transform delay_n_days variable
-hist(d1$delay_n_days)
-
-d1$sqrtdd <- sqrt(d1$delay_n_days)
-hist(d1$sqrtdd)
-
 d1$logdnd <- log(d1$delay_n_days)
-hist(d1$logdnd)
-#logdnd wins!
-
 
 # Simple Logistic Regression ####
-#M2 <- glm(d1$choice ~ d1$Age * d1$delay_n_days, family = binomial(link = 'logit'), data = d1)
-#summary(M2)
-
 M2 <- glm(choice ~ Age * logdnd, family = binomial(link = 'logit'), data = d1)
 SM2 <- summary.glm(M2, correlation = TRUE, signif.stars = TRUE) 
 print(SM2)
@@ -97,7 +65,6 @@ d2 <- d1 %>% dplyr::group_by(delay_n_days) %>% dplyr::summarize(
   estimate = cor.test(Age, choice)$estimate, 
   pvalue = cor.test(Age, choice)$p.value 
 )
-
 
 d2 <- d2 %>% mutate(
   estimate = round(estimate,3),
