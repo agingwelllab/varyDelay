@@ -11,7 +11,6 @@ library(sjPlot)
 source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
-#source(here::here('scr', 'logistic_pseudoR2.R'))
 
 # set hard-coded variables
 
