@@ -8,6 +8,7 @@ library(plyr)
 library(ggplot2)
 
 # load source functions
+source(here::here('scr', 'transform_delay_and_k.R'))
 source(here::here('scr', 'isolate_data.R'))
 source(here::here('scr', 'summarySE.R'))
 
@@ -26,14 +27,7 @@ gd <- gd[complete.cases(gd),]
 d0 <- gather(gd, "gambletype", "choice", X1d_1:X10y_005)
 rm(gd)
 
-d0$delay <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,1])
-d0$kval <- as.factor(t(as.data.frame(strsplit(d0$gambletype, '_')))[,2])
-
-d0$delay_unit <- ifelse(str_detect(d0$delay, 'd'), 'days', 
-                        ifelse(str_detect(d0$delay, 'w'), 'weeks', 
-                               ifelse(str_detect(d0$delay, 'm'), 'months',
-                                      ifelse(str_detect(d0$delay, 'y'), 'years', 0))))
-d0$delay_unit <- factor(d0$delay_unit, levels = c("days", "weeks", "months", "years"))
+d0 <- create_delay_unit(d0)
 
 # recode choice into LL (0) or SS (1)
 d0$choice <- ifelse(d0$choice == 2, 0, 1)
